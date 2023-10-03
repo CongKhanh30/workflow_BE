@@ -10,14 +10,17 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Label {
+public class Permission_Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    private Board board;
 
-    @Column(nullable = false)
-    private String color;
+    @ManyToOne
+    private Permission permission;
+
+    @ManyToOne
+    private Account account;
 }

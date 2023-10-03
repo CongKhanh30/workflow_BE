@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Label {
+public class Teams {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -18,6 +18,4 @@ public class Label {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private String color;
 }

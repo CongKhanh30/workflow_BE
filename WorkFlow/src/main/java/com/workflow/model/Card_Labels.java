@@ -10,14 +10,16 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Label {
+public class Card_Labels {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "card_id")
+    private Card card;
 
-    @Column(nullable = false)
-    private String color;
+    @ManyToOne
+    @JoinColumn(name = "label_id")
+    private Label label;
 }

@@ -10,14 +10,19 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Label {
+public class Notification_Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
-    private String name;
+    private boolean is_Read;
 
-    @Column(nullable = false)
-    private String color;
+    @ManyToOne
+    @JoinColumn(name = "notification_id")
+    private Notification notification;
+
+    @ManyToOne
+    @JoinColumn(name = "account_id")
+    private Account account;
 }
