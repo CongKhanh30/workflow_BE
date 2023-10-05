@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class AccountServiceImpl implements IAccountService {
 
@@ -24,6 +26,31 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = findByUsername(username);
-        return new User(username,account.getPassword(),account.getRoles());
+        return new User(username, account.getPassword(), account.getRoles());
+    }
+
+    @Override
+    public List<Account> findAll() {
+        return (List<Account>) iAccountRepo.findAll();
+    }
+
+    @Override
+    public void save(Account account) {
+        iAccountRepo.save(account);
+    }
+
+    @Override
+    public void edit(Account account) {
+        iAccountRepo.save(account);
+    }
+
+    @Override
+    public void delete(int id) {
+        iAccountRepo.deleteById(id);
+    }
+
+    @Override
+    public Account findById(int id) {
+        return iAccountRepo.findById(id).get();
     }
 }
