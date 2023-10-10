@@ -1,5 +1,7 @@
 package com.workflow.service;
 
 
-public interface IBoardService {
+import com.workflow.model.Board;
+
+public interface IBoardService extends IService<Board> {
 }
