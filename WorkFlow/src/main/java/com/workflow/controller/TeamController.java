@@ -1,14 +1,9 @@
 package com.workflow.controller;
 
-import com.workflow.dto.AddMemberRequest;
 import com.workflow.dto.TeamResponse;
 import com.workflow.model.Teams;
-import com.workflow.repository.IAccountRepo;
-import com.workflow.service.impl.AccountServiceImpl;
-import com.workflow.service.impl.PermissionTeamServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,14 +19,25 @@ public class TeamController {
     private final AccountServiceImpl accountService;
 
     @GetMapping
-    public List<TeamResponse> getAllTeam(){
+    public List<TeamResponse> getAllTeam() {
         return teamService.getAll();
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createTeam(@RequestBody Teams teams){
+    public ResponseEntity<String> createTeam(@RequestBody Teams teams) {
         teamService.save(teams);
+
         return ResponseEntity.ok("Team created");
+    }
+
+    @GetMapping("/deleteTeamById/{id}")
+    public ResponseEntity<String> deleteTeamById(@PathVariable("id") int id) {
+        if (teamService.findById(id) == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else {
+            teamService.delete(id);
+            return new ResponseEntity<>("Delete success", HttpStatus.OK);
+        }
     }
     @PostMapping("/add")
     public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){

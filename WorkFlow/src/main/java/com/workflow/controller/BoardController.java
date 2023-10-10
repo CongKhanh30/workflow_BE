@@ -43,15 +43,6 @@ public class BoardController {
         return new ResponseEntity<>(boardList, HttpStatus.OK);
     }
 
-    @GetMapping("/findBoardById/{idBoard}")
-    public ResponseEntity<Board> getBoardById(@PathVariable int idBoard) {
-        Board board = boardService.findById(idBoard);
-        if (board == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(board, HttpStatus.OK);
-    }
-
     @PostMapping("/createBoard/{idTeam}")
     public ResponseEntity<String> createBoard(@RequestBody Board board,@PathVariable int idTeam) {
 

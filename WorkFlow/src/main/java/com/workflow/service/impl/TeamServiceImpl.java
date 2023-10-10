@@ -71,7 +71,11 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public void delete(int id) {
+        Teams teams = teamRepo.findById(id).get();
+        List<Permission_Team> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
+        permissionTeamRepo.deleteAll(permissionTeamList);
 
+        teamRepo.deleteById(id);
     }
 
     @Override
