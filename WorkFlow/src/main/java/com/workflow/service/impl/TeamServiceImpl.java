@@ -4,6 +4,7 @@ import com.workflow.dto.TeamResponse;
 import com.workflow.model.Permission;
 import com.workflow.model.Permission_Team;
 import com.workflow.model.Teams;
+import com.workflow.repository.IPermissionRepo;
 import com.workflow.repository.IPermissionTeamRepo;
 import com.workflow.repository.ITeamRepo;
 import com.workflow.service.ITeamService;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 public class TeamServiceImpl implements ITeamService {
     private final IPermissionTeamRepo permissionTeamRepo;
     private final AccountServiceImpl accountService;
+    private final IPermissionRepo permissionRepo;
 
     @Autowired
     ITeamRepo teamRepo;
@@ -28,14 +30,17 @@ public class TeamServiceImpl implements ITeamService {
         List<Permission_Team> listPermission = permissionTeamRepo.findAllByAccount_Username(username);
         List<Teams> teams = listPermission.stream().map(Permission_Team::getTeams).collect(Collectors.toList());
         return teams.stream().
-                map(t->new TeamResponse(t.getId(), t.getName(), findAccountByTeam(t)))
+                map(t->new TeamResponse(t.getId(), t.getName(), findAccountByTeam(t),getCurrentPermission(t)))
                 .collect(Collectors.toList());
     }
     private List<String> findAccountByTeam(Teams teams){
         List<Permission_Team> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
-        return permissionTeamList.stream()
-                .map(p->p.getAccount().getName())
-                .collect(Collectors.toList());
+        return permissionTeamList.stream().map(p->p.getAccount().getName()).collect(Collectors.toList());
+    }
+    private Permission getCurrentPermission(Teams teams){
+        Permission_Team permissionTeam = permissionTeamRepo.findByAccount_UsernameAndTeamsId(
+                accountService.getCurrentUsername(), teams.getId());
+        return permissionTeam.getPermission();
     }
 
     @Override
