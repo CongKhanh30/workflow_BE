@@ -3,9 +3,11 @@ package com.workflow.controller;
 import com.workflow.dto.AddMemberRequest;
 import com.workflow.dto.TeamResponse;
 import com.workflow.model.Teams;
+import com.workflow.repository.IAccountRepo;
 import com.workflow.service.impl.PermissionTeamServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ import java.util.List;
 public class TeamController {
     private final TeamServiceImpl teamService;
     private final PermissionTeamServiceImpl permissionTeamService;
+    private final IAccountRepo accountRepo;
 
     @GetMapping
     public List<TeamResponse> getAllTeam(){
@@ -30,6 +33,9 @@ public class TeamController {
     }
     @PostMapping("/add")
     public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){
+        if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
+        }
         permissionTeamService.addMember(addMemberRequest);
         return ResponseEntity.ok("succeed");
     }
