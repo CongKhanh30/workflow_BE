@@ -1,11 +1,11 @@
 package com.workflow.controller;
 
 import com.workflow.dto.TeamResponse;
+import com.workflow.model.Teams;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,4 +20,11 @@ public class TeamController {
         return teamService.getAll();
     }
 
+    @PostMapping("/create")
+    public ResponseEntity<String> createTeam(@RequestBody Teams teams){
+        teamService.save(teams);
+
+
+        return ResponseEntity.ok("Team created");
+    }
 }

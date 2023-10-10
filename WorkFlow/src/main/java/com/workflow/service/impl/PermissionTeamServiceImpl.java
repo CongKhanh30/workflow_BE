@@ -16,4 +16,5 @@ public class PermissionTeamServiceImpl implements IPermissionTeamService {
     public List<Permission_Team> getByUsername(String username){
         return permissionTeamRepo.findAllByAccount_Username(username);
     }
+
 }

@@ -42,6 +42,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public void edit(Account account) {
+
         iAccountRepo.save(account);
     }
 
@@ -52,11 +53,16 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Account findById(int id) {
+
         return iAccountRepo.findById(id).get();
     }
 
     public String getCurrentUsername (){
         UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return userDetails.getUsername();
+    }
+
+    public Account getCurrentAccount(){ // trả về account hiện tại đang đăng nhập
+        return findByUsername(getCurrentUsername());
     }
 }

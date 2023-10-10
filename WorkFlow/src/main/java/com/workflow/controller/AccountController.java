@@ -7,14 +7,13 @@ import com.workflow.service.impl.AccountServiceImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
@@ -23,6 +22,9 @@ import java.util.Date;
 public class AccountController {
     @Autowired
     private IAccountService iAccountService;
+
+    @Autowired
+    AccountServiceImpl accountServiceImpl;
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -48,6 +50,26 @@ public class AccountController {
 
         String token = createToken(account.getUsername());
         Account accountByUserName = iAccountService.findByUsername(account.getUsername());
-        return new AccountToken(accountByUserName.getId(),accountByUserName.getUsername(),token,accountByUserName.getRoles());
+        return new AccountToken(accountByUserName.getId(), accountByUserName.getUsername(), token, accountByUserName.getRoles());
+    }
+
+    // doi mat khau nguoi dung
+    @PostMapping ("/{id}/change-password")
+    public ResponseEntity<?> changePassword(@PathVariable int id, @RequestBody Account account) {
+        Account currentAccount = accountServiceImpl.findById(id);
+        if (currentAccount == null) {
+            // thong bao nguoi dung khong ton tai
+            return new ResponseEntity<>("Tai khoan khong ton tai", HttpStatus.NOT_FOUND);
+        }
+
+        // check mat khau cu co dung khong
+        if (!currentAccount.getPassword().equals(account.getPassword())) {
+            return new ResponseEntity<>("Mat khau cu khong dung", HttpStatus.BAD_REQUEST);
+        }
+
+        // cap nhat mat khau moi
+        currentAccount.setPassword(account.getPassword());
+        accountServiceImpl.save(currentAccount);
+        return new ResponseEntity<>("Cap nhat mat khau thanh cong", HttpStatus.OK);
     }
 }

@@ -1,4 +1,6 @@
 package com.workflow.service;
 
-public interface ITeamService {
+import com.workflow.model.Teams;
+
+public interface ITeamService extends IService<Teams> {
 }
