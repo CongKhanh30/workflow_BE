@@ -23,20 +23,22 @@ public class TeamServiceImpl implements ITeamService {
     @Autowired
     ITeamRepo teamRepo;
 
-    public List<TeamResponse> getAll(){
+    public List<TeamResponse> getAll() {
         String username = accountService.getCurrentUsername();
         List<Permission_Team> listPermission = permissionTeamRepo.findAllByAccount_Username(username);
         List<Teams> teams = listPermission.stream().map(Permission_Team::getTeams).collect(Collectors.toList());
         return teams.stream().
-                map(t->new TeamResponse(t.getId(), t.getName(), findAccountByTeam(t))).collect(Collectors.toList());
+                map(t -> new TeamResponse(t.getId(), t.getName(), findAccountByTeam(t))).collect(Collectors.toList());
     }
-    private List<String> findAccountByTeam(Teams teams){
+
+    private List<String> findAccountByTeam(Teams teams) {
         List<Permission_Team> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
-        return permissionTeamList.stream().map(p->p.getAccount().getName()).collect(Collectors.toList());
+        return permissionTeamList.stream().map(p -> p.getAccount().getName()).collect(Collectors.toList());
     }
 
     @Override
     public List<Teams> findAll() {
+
         return null;
     }
 
@@ -63,7 +65,11 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public void delete(int id) {
+        Teams teams = teamRepo.findById(id).get();
+        List<Permission_Team> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
+        permissionTeamRepo.deleteAll(permissionTeamList);
 
+        teamRepo.deleteById(id);
     }
 
     @Override
