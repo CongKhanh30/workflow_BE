@@ -35,8 +35,9 @@ public class PermissionTeamServiceImpl implements IPermissionTeamService {
         return permissionTeam;
     }
     public boolean adminCheck(String username, int teamId){
-        if (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId).getPermission().getId() == 1)
-            return true;
+        if (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId) != null)
+            if (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId).getPermission().getId() == 1)
+                return true;
         return false;
     }
 }
