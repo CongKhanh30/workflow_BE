@@ -9,4 +9,5 @@ import java.util.List;
 public interface IPermissionTeamRepo extends JpaRepository<Permission_Team, Integer> {
     List<Permission_Team> findAllByAccount_Username(String username);
     List<Permission_Team> findAllByTeams(Teams teams);
+    Permission_Team findByAccount_UsernameAndTeamsId(String username, int teamId);
 }

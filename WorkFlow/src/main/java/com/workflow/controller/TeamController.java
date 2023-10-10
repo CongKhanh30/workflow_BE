@@ -4,6 +4,7 @@ import com.workflow.dto.AddMemberRequest;
 import com.workflow.dto.TeamResponse;
 import com.workflow.model.Teams;
 import com.workflow.repository.IAccountRepo;
+import com.workflow.service.impl.AccountServiceImpl;
 import com.workflow.service.impl.PermissionTeamServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +21,7 @@ public class TeamController {
     private final TeamServiceImpl teamService;
     private final PermissionTeamServiceImpl permissionTeamService;
     private final IAccountRepo accountRepo;
+    private final AccountServiceImpl accountService;
 
     @GetMapping
     public List<TeamResponse> getAllTeam(){
@@ -33,10 +35,13 @@ public class TeamController {
     }
     @PostMapping("/add")
     public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){
-        if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
+        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId()))
+        {if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
         }
         permissionTeamService.addMember(addMemberRequest);
         return ResponseEntity.ok("succeed");
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
 }
