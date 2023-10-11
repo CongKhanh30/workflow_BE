@@ -8,7 +8,6 @@ import com.workflow.service.impl.AccountServiceImpl;
 import com.workflow.service.impl.PermissionTeamServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +18,6 @@ import java.util.List;
 @RequestMapping("/team")
 @RequiredArgsConstructor
 public class TeamController {
-
     private final TeamServiceImpl teamService;
     private final PermissionTeamServiceImpl permissionTeamService;
     private final IAccountRepo accountRepo;
@@ -37,7 +35,7 @@ public class TeamController {
         return ResponseEntity.ok("Team created");
     }
 
-    @GetMapping("/deleteTeamById/{id}") // delete team by id
+    @GetMapping("/deleteTeamById/{id}")
     public ResponseEntity<String> deleteTeamById(@PathVariable("id") int id) {
         if (teamService.findById(id) == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -46,16 +44,14 @@ public class TeamController {
             return new ResponseEntity<>("Delete success", HttpStatus.OK);
         }
     }
-
     @PostMapping("/add")
-    public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest) {
-        // nếu là admin của team thì mới được add thành viên vào team đó
-        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())) { // check xem có phải admin của team đó không
-            if (accountRepo.findByUsername(addMemberRequest.getUsername()) == null) { // check xem username có tồn tại không trong db
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
-            }
-            permissionTeamService.addMember(addMemberRequest);
-            return ResponseEntity.ok("succeed");
+    public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){
+        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId()))
+        {if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
+        }
+        permissionTeamService.addMember(addMemberRequest);
+        return ResponseEntity.ok("succeed");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
