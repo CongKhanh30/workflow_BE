@@ -1,6 +1,7 @@
 package com.workflow.controller;
 
 import com.workflow.dto.AddMemberRequest;
+import com.workflow.dto.ChangeNameRequest;
 import com.workflow.dto.TeamResponse;
 import com.workflow.model.Teams;
 import com.workflow.repository.IAccountRepo;
@@ -53,6 +54,13 @@ public class TeamController {
         permissionTeamService.addMember(addMemberRequest);
         return ResponseEntity.ok("succeed");
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
+    }
+
+    @PostMapping("/rn")
+    public ResponseEntity<String> rename(@RequestBody ChangeNameRequest changeNameRequest){
+        if (teamService.changeName(changeNameRequest.getName(),changeNameRequest.getTeamId()))
+            return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
 }

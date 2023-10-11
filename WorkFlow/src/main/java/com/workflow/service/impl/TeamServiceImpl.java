@@ -24,6 +24,7 @@ public class TeamServiceImpl implements ITeamService {
 
     @Autowired
     ITeamRepo teamRepo;
+    private final PermissionTeamServiceImpl permissionTeamService;
 
     public List<TeamResponse> getAll(){
         String username = accountService.getCurrentUsername();
@@ -82,5 +83,15 @@ public class TeamServiceImpl implements ITeamService {
     public Teams findById(int id) {
         Teams teams = teamRepo.findById(id).get();
         return teams;
+    }
+
+    public boolean changeName(String name, int teamId){
+        Teams team = teamRepo.findById(teamId).get();
+        if (team != null && permissionTeamService.adminCheck(accountService.getCurrentUsername(),teamId)){
+            team.setName(name);
+            teamRepo.save(team);
+            return true;
+        }
+        return false;
     }
 }
