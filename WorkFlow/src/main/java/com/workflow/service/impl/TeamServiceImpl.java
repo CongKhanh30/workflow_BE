@@ -86,11 +86,13 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     public boolean changeName(String name, int teamId){
-        Teams team = teamRepo.findById(teamId).get();
-        if (team != null && permissionTeamService.adminCheck(accountService.getCurrentUsername(),teamId)){
-            team.setName(name);
-            teamRepo.save(team);
-            return true;
+        if(teamRepo.findById(teamId).isPresent()) {
+            Teams team = teamRepo.findById(teamId).get();
+            if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), teamId)) {
+                team.setName(name);
+                teamRepo.save(team);
+                return true;
+            }
         }
         return false;
     }
