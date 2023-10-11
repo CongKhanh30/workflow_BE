@@ -1,6 +1,7 @@
 package com.workflow.controller;
 
 import com.workflow.dto.AddMemberRequest;
+import com.workflow.dto.ChangeNameRequest;
 import com.workflow.dto.TeamResponse;
 import com.workflow.model.Teams;
 import com.workflow.repository.IAccountRepo;
@@ -31,7 +32,6 @@ public class TeamController {
     @PostMapping("/create")
     public ResponseEntity<String> createTeam(@RequestBody Teams teams) {
         teamService.save(teams);
-
         return ResponseEntity.ok("Team created");
     }
 
@@ -46,13 +46,20 @@ public class TeamController {
     }
     @PostMapping("/add")
     public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){
-        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId()))
-        {if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
+        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())){
+            if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
         }
         permissionTeamService.addMember(addMemberRequest);
         return ResponseEntity.ok("succeed");
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
+    }
+
+    @PostMapping("/rn")
+    public ResponseEntity<String> rename(@RequestBody ChangeNameRequest changeNameRequest){
+        if (teamService.changeName(changeNameRequest.getName(),changeNameRequest.getTeamId()))
+            return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
 }

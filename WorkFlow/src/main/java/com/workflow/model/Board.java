@@ -25,7 +25,6 @@ public class Board {
     @JoinColumn(name = "team_id")
     private Teams team;
 
-
     @Column(nullable = false)
     private Boolean is_Public;
 }
