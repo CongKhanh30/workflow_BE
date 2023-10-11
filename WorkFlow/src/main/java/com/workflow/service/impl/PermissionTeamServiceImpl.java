@@ -8,6 +8,7 @@ import com.workflow.repository.IPermissionTeamRepo;
 import com.workflow.repository.ITeamRepo;
 import com.workflow.service.IPermissionTeamService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PermissionTeamServiceImpl implements IPermissionTeamService {
+    @Autowired
     private final IPermissionTeamRepo permissionTeamRepo;
     private final ITeamRepo teamRepo;
     private final IAccountRepo accountRepo;
