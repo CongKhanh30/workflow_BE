@@ -25,9 +25,6 @@ public class Board {
     @JoinColumn(name = "team_id")
     private Teams team;
 
-    @ManyToOne
-    @JoinColumn(name = "account_id")
-    private Account account;
 
     @Column(nullable = false)
     private Boolean is_Public;

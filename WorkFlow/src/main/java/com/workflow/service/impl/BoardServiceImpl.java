@@ -44,7 +44,7 @@ public class BoardServiceImpl implements IBoardService {
 
     @Override
     public void save(Board board) {
-        board.setAccount(accountRepo.findByUsername(accountService.getCurrentUsername()));
+     //   board.setAccount(accountRepo.findByUsername(accountService.getCurrentUsername()));
         boardRepo.save(board);
     }
 
