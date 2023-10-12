@@ -42,7 +42,6 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public void edit(Account account) {
-
         iAccountRepo.save(account);
     }
 
