@@ -1,5 +1,7 @@
 package com.workflow.service.impl;
 
+import com.workflow.dto.TeamDetailResponse;
+import com.workflow.dto.TeamMemberResponse;
 import com.workflow.dto.TeamResponse;
 import com.workflow.model.Permission;
 import com.workflow.model.Permission_Team;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -80,7 +83,7 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     @Override
-    public Teams findById(int id) {
+    public Teams findByTeamId(int id) {
         Teams teams = teamRepo.findById(id).get();
         return teams;
     }
@@ -95,5 +98,24 @@ public class TeamServiceImpl implements ITeamService {
             }
         }
         return false;
+    }
+
+    public TeamDetailResponse findById(int id){
+        if (teamRepo.findById(id).isPresent()){
+            Teams teams = teamRepo.findById(id).get();
+            TeamDetailResponse teamDetailResponse = new TeamDetailResponse();
+            teamDetailResponse.setName(teams.getName());
+            List<Permission_Team> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
+            teamDetailResponse.setMembers(permissionTeamList.stream().map(this::buildMember).collect(Collectors.toSet()));
+            return teamDetailResponse;
+        }
+        return null;
+    }
+    private TeamMemberResponse buildMember(Permission_Team pt){
+        TeamMemberResponse teamMemberResponse = new TeamMemberResponse();
+        teamMemberResponse.setId(pt.getAccount().getId());
+        teamMemberResponse.setName(pt.getAccount().getName());
+        teamMemberResponse.setPermission(pt.getPermission().getName());
+        return teamMemberResponse;
     }
 }
