@@ -101,7 +101,8 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     public TeamDetailResponse findById(int id){
-        if (teamRepo.findById(id).isPresent()){
+        if (teamRepo.findById(id).isPresent()
+                && permissionTeamRepo.findByAccount_UsernameAndTeamsId(accountService.getCurrentUsername(), id)!= null){
             Teams teams = teamRepo.findById(id).get();
             TeamDetailResponse teamDetailResponse = new TeamDetailResponse();
             teamDetailResponse.setName(teams.getName());
