@@ -46,7 +46,7 @@ public class BoardController {
     @PostMapping("/createBoard/{idTeam}")
     public ResponseEntity<String> createBoard(@RequestBody Board board,@PathVariable int idTeam) {
 
-        Teams teams = teamService.findById(idTeam);
+        Teams teams = teamService.findByTeamId(idTeam);
         if (teams == null) {
             return new ResponseEntity<>("Team not found", HttpStatus.NOT_FOUND);
         }

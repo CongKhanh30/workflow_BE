@@ -56,7 +56,7 @@ public class AccountController {
     // doi mat khau nguoi dung
     @PostMapping ("/{id}/change-password")
     public ResponseEntity<?> changePassword(@PathVariable int id, @RequestBody Account account) {
-        Account currentAccount = accountServiceImpl.findById(id);
+        Account currentAccount = accountServiceImpl.findByTeamId(id);
         if (currentAccount == null) {
             // thong bao nguoi dung khong ton tai
             return new ResponseEntity<>("Tai khoan khong ton tai", HttpStatus.NOT_FOUND);

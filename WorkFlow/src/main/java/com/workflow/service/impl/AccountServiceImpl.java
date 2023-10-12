@@ -52,7 +52,7 @@ public class AccountServiceImpl implements IAccountService {
     }
 
     @Override
-    public Account findById(int id) {
+    public Account findByTeamId(int id) {
 
         return iAccountRepo.findById(id).get();
     }

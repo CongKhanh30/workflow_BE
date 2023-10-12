@@ -12,5 +12,5 @@ public interface IService<E> {
 
     void delete(int id);
 
-    E findById(int id);
+    E findByTeamId(int id);
 }
