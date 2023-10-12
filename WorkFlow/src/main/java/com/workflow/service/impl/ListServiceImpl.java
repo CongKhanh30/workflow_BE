@@ -42,4 +42,15 @@ public class ListServiceImpl {
         }
         return null;
     }
+    public boolean rename(String name, int listId){
+        Optional<List> listOtp = listRepo.findById(listId);
+        if (listOtp.isPresent()
+                && permissionTeamService.isMember(listOtp.get().getBoard().getTeam().getId())){
+            List list = listOtp.get();
+            list.setName(name);
+            listRepo.save(list);
+            return true;
+        }
+        return false;
+    }
 }
