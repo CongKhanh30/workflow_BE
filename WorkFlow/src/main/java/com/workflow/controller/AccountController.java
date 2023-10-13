@@ -76,24 +76,4 @@ public class AccountController {
     }
 
 
-//
-//    @PostMapping("/checkPassword/{id}")
-//    public boolean checkPassword(@PathVariable int id , @RequestBody Account accountEdit) {
-//        Account account = accountServiceImpl.findById(id);
-//        if (account.getPassword().equals(accountEdit.getPassword())) {
-//            return true;
-//        }else  {
-//            return false;
-//        }
-//    }
-//
-//    @PutMapping("/changePassword/{id}")
-//    public Account changePassword(@RequestBody Account accountEdit) {
-//        Account account = accountServiceImpl.findById(accountEdit.getId());
-//        account.setPassword(accountEdit.getPassword());
-//        accountServiceImpl.edit(account);
-//        return account;
-//    }
-
-
 }
