@@ -54,4 +54,35 @@ public class BoardController {
         boardService.save(board);
         return new ResponseEntity<>("Create Board Success", HttpStatus.OK);
     }
+
+    @GetMapping("/removeBoard/{id}")
+    public ResponseEntity<String> removeBoard(@PathVariable int id) {
+        Board boardRemove = boardService.findById(id);
+        if (boardRemove == null) {
+            return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
+        }
+        boardService.delete(id);
+        return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
+    }
+
+    @PostMapping("/editNameBoard/{id}")
+    public ResponseEntity<String> editNameBoard(@RequestBody Board board,@PathVariable int id) {
+        Board boardEdit = boardService.findById(id);
+        if (boardEdit == null) {
+            return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
+        }
+        boardEdit.setName(board.getName());
+        boardService.edit(boardEdit);
+
+        return new ResponseEntity<>("Edit Board Success", HttpStatus.OK);
+    }
+
+    @GetMapping("/getBoardById/{id}")
+    public ResponseEntity<Board> getBoardById(@PathVariable int id) {
+        Board board = boardService.findById(id);
+        if (board == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(board, HttpStatus.OK);
+    }
 }
