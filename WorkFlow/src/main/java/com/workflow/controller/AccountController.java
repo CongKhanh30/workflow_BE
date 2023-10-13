@@ -20,7 +20,6 @@ import java.util.Date;
 
 @RestController
 @CrossOrigin("*")
-@RequestMapping("/accounts")
 public class AccountController {
     @Autowired
     private IAccountService iAccountService;
@@ -74,6 +73,4 @@ public class AccountController {
             return new ResponseEntity<>("Không thể xác định người dùng hiện tại", HttpStatus.UNAUTHORIZED);
         }
     }
-
-
 }

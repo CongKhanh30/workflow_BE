@@ -46,12 +46,43 @@ public class BoardController {
     @PostMapping("/createBoard/{idTeam}")
     public ResponseEntity<String> createBoard(@RequestBody Board board,@PathVariable int idTeam) {
 
-        Teams teams = teamService.findById(idTeam);
+        Teams teams = teamService.findByTeamId(idTeam);
         if (teams == null) {
             return new ResponseEntity<>("Team not found", HttpStatus.NOT_FOUND);
         }
         board.setTeam(teams);
         boardService.save(board);
         return new ResponseEntity<>("Create Board Success", HttpStatus.OK);
+    }
+
+    @GetMapping("/removeBoard/{id}")
+    public ResponseEntity<String> removeBoard(@PathVariable int id) {
+        Board boardRemove = boardService.findByTeamId(id);
+        if (boardRemove == null) {
+            return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
+        }
+        boardService.delete(id);
+        return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
+    }
+
+    @PostMapping("/editNameBoard/{id}")
+    public ResponseEntity<String> editNameBoard(@RequestBody Board board,@PathVariable int id) {
+        Board boardEdit = boardService.findByTeamId(id);
+        if (boardEdit == null) {
+            return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
+        }
+        boardEdit.setName(board.getName());
+        boardService.edit(boardEdit);
+
+        return new ResponseEntity<>("Edit Board Success", HttpStatus.OK);
+    }
+
+    @GetMapping("/getBoardById/{id}")
+    public ResponseEntity<Board> getBoardById(@PathVariable int id) {
+        Board board = boardService.findByTeamId(id);
+        if (board == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(board, HttpStatus.OK);
     }
 }

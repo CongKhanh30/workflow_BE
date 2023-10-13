@@ -49,16 +49,16 @@ public class BoardServiceImpl implements IBoardService {
 
     @Override
     public void edit(Board board) {
-
+        boardRepo.save(board);
     }
 
     @Override
     public void delete(int id) {
-
+        boardRepo.deleteById(id);
     }
 
     @Override
-    public Board findById(int idBoard) {
+    public Board findByTeamId(int idBoard) {
         Board board = boardRepo.findById(idBoard).get();
         return board;
     }
