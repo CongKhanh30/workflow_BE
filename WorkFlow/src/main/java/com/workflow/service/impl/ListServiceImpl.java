@@ -19,7 +19,6 @@ import java.util.stream.Collectors;
 public class ListServiceImpl {
     private final IListRepo listRepo;
     private final PermissionTeamServiceImpl permissionTeamService;
-    private final AccountServiceImpl accountService;
     private final IBoardRepo boardRepo;
 
 
@@ -53,4 +52,5 @@ public class ListServiceImpl {
         }
         return false;
     }
+
 }
