@@ -57,7 +57,7 @@ public class BoardController {
 
     @GetMapping("/removeBoard/{id}")
     public ResponseEntity<String> removeBoard(@PathVariable int id) {
-        Board boardRemove = boardService.findById(id);
+        Board boardRemove = boardService.findByTeamId(id);
         if (boardRemove == null) {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
         }
@@ -67,7 +67,7 @@ public class BoardController {
 
     @PostMapping("/editNameBoard/{id}")
     public ResponseEntity<String> editNameBoard(@RequestBody Board board,@PathVariable int id) {
-        Board boardEdit = boardService.findById(id);
+        Board boardEdit = boardService.findByTeamId(id);
         if (boardEdit == null) {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
         }
@@ -79,7 +79,7 @@ public class BoardController {
 
     @GetMapping("/getBoardById/{id}")
     public ResponseEntity<Board> getBoardById(@PathVariable int id) {
-        Board board = boardService.findById(id);
+        Board board = boardService.findByTeamId(id);
         if (board == null) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
