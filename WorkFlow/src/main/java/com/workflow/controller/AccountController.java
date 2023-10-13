@@ -13,12 +13,14 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 
 @RestController
 @CrossOrigin("*")
+@RequestMapping("/accounts")
 public class AccountController {
     @Autowired
     private IAccountService iAccountService;
@@ -53,23 +55,45 @@ public class AccountController {
         return new AccountToken(accountByUserName.getId(), accountByUserName.getUsername(), token, accountByUserName.getRoles());
     }
 
-    // doi mat khau nguoi dung
-    @PostMapping ("/{id}/change-password")
-    public ResponseEntity<?> changePassword(@PathVariable int id, @RequestBody Account account) {
-        Account currentAccount = accountServiceImpl.findById(id);
-        if (currentAccount == null) {
-            // thong bao nguoi dung khong ton tai
-            return new ResponseEntity<>("Tai khoan khong ton tai", HttpStatus.NOT_FOUND);
-        }
 
-        // check mat khau cu co dung khong
-        if (!currentAccount.getPassword().equals(account.getPassword())) {
-            return new ResponseEntity<>("Mat khau cu khong dung", HttpStatus.BAD_REQUEST);
-        }
+    @PostMapping("/changePassword")
+    public ResponseEntity<?> changePassword(@RequestBody Account account) {
 
-        // cap nhat mat khau moi
-        currentAccount.setPassword(account.getPassword());
-        accountServiceImpl.save(currentAccount);
-        return new ResponseEntity<>("Cap nhat mat khau thanh cong", HttpStatus.OK);
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) principal;
+            String currentUsername = userDetails.getUsername();
+            Account currentAccount = iAccountService.findByUsername(currentUsername);
+            if (!currentAccount.getPassword().equals(account.getPassword())) {
+                return new ResponseEntity<>("Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST);
+            }
+            currentAccount.setPassword(account.getPassword());
+            accountServiceImpl.save(currentAccount);
+            return new ResponseEntity<>("Cập nhật mật khẩu thành công", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Không thể xác định người dùng hiện tại", HttpStatus.UNAUTHORIZED);
+        }
     }
+
+
+//
+//    @PostMapping("/checkPassword/{id}")
+//    public boolean checkPassword(@PathVariable int id , @RequestBody Account accountEdit) {
+//        Account account = accountServiceImpl.findById(id);
+//        if (account.getPassword().equals(accountEdit.getPassword())) {
+//            return true;
+//        }else  {
+//            return false;
+//        }
+//    }
+//
+//    @PutMapping("/changePassword/{id}")
+//    public Account changePassword(@RequestBody Account accountEdit) {
+//        Account account = accountServiceImpl.findById(accountEdit.getId());
+//        account.setPassword(accountEdit.getPassword());
+//        accountServiceImpl.edit(account);
+//        return account;
+//    }
+
+
 }
