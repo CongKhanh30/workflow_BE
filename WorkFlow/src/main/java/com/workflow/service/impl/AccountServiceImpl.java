@@ -1,7 +1,10 @@
 package com.workflow.service.impl;
 
 import com.workflow.model.Account;
+import com.workflow.model.AccountRole;
+import com.workflow.model.Role;
 import com.workflow.repository.IAccountRepo;
+import com.workflow.repository.IAccountRoleRepo;
 import com.workflow.service.IAccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,24 +13,36 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements IAccountService {
 
     private final IAccountRepo iAccountRepo;
+    private final IAccountRoleRepo accountRoleRepo;
 
+    private final List<Role> getRoles(Account account){
+        List<Role> roles = new ArrayList<>();
+        List<AccountRole> accountRoles = accountRoleRepo.findAllByAccount(account);
+        for (AccountRole ar : accountRoles) {
+            roles.add(ar.getRole());
+        }
+        return roles;
+    }
     @Override
     public Account findByUsername(String username) {
         Account account = iAccountRepo.findByUsername(username);
+        account.setRoles(getRoles(account));
         return account;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = findByUsername(username);
-        return new User(username, account.getPassword(), account.getRoles());
+        return new User(username, account.getPassword(), getRoles(account));
     }
 
     @Override
