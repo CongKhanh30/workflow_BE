@@ -3,7 +3,7 @@ package com.workflow.controller;
 import com.workflow.model.Account;
 import com.workflow.model.Role;
 import com.workflow.service.IAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,11 +18,11 @@ import java.util.List;
 
 
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin("*")
 @RequestMapping("/register")
 public class RegisterController {
-    @Autowired
-    private IAccountService accountService;
+    private final IAccountService accountService;
 
     @PostMapping
     public ResponseEntity<Account> createAccount(@RequestParam(value = "name") String name,

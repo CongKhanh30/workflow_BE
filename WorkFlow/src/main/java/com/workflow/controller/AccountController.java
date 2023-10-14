@@ -6,7 +6,7 @@ import com.workflow.service.IAccountService;
 import com.workflow.service.impl.AccountServiceImpl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,16 +19,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 
 @RestController
+@RequiredArgsConstructor
 @CrossOrigin("*")
 public class AccountController {
-    @Autowired
-    private IAccountService iAccountService;
 
-    @Autowired
-    AccountServiceImpl accountServiceImpl;
+    private final IAccountService iAccountService;
 
-    @Autowired
-    AuthenticationManager authenticationManager;
+    private final AccountServiceImpl accountServiceImpl;
+
+    private final AuthenticationManager authenticationManager;
 
     public static final String PRIVATE_KEY = "123456789999887abc";
     private static final long EXPIRE_TIME = 86400L;

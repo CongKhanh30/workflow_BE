@@ -3,7 +3,7 @@ package com.workflow.service.impl;
 import com.workflow.model.Account;
 import com.workflow.repository.IAccountRepo;
 import com.workflow.service.IAccountService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +13,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class AccountServiceImpl implements IAccountService {
 
-    @Autowired
-    private IAccountRepo iAccountRepo;
+    private final IAccountRepo iAccountRepo;
 
     @Override
     public Account findByUsername(String username) {

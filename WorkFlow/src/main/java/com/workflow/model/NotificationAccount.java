@@ -10,13 +10,13 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Notification_Account {
+public class NotificationAccount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
-    private boolean is_Read;
+    private boolean isRead;
 
     @ManyToOne
     @JoinColumn(name = "notification_id")

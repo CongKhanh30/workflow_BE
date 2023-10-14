@@ -5,7 +5,7 @@ import com.workflow.model.Board;
 import com.workflow.model.Teams;
 import com.workflow.service.impl.BoardServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,32 +15,31 @@ import java.util.List;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/board")
-
+@RequiredArgsConstructor
 public class BoardController {
 
-    @Autowired
-    private BoardServiceImpl boardService;
 
-    @Autowired
-    private TeamServiceImpl teamService;
+    private final BoardServiceImpl boardService;
+
+    private final TeamServiceImpl teamService;
 
     @GetMapping("/getAllByIdTeam/{idTeam}")
     public ResponseEntity<List<BoardResponse>> getAllBoard(@PathVariable int idTeam) {
 
-        List<BoardResponse> boardList = boardService.findAllByTeam(idTeam);
-        if (boardList.isEmpty()) {
+        List<BoardResponse> boards = boardService.findAllByTeam(idTeam);
+        if (boards.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(boardList, HttpStatus.OK);
+        return new ResponseEntity<>(boards, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<Board>> getAllBoard() {
-        List<Board> boardList = boardService.findAll();
-        if (boardList.isEmpty()) {
+        List<Board> boards = boardService.findAll();
+        if (boards.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(boardList, HttpStatus.OK);
+        return new ResponseEntity<>(boards, HttpStatus.OK);
     }
 
     @PostMapping("/createBoard/{idTeam}")
