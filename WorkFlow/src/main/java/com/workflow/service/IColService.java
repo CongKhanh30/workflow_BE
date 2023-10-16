@@ -1,4 +1,4 @@
 package com.workflow.service;
 
-public interface IListService {
+public interface IColService {
 }

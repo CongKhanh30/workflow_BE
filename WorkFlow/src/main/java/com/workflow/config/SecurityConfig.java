@@ -1,7 +1,7 @@
 package com.workflow.config;
 
 import com.workflow.service.impl.AccountServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -21,10 +21,11 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Autowired
-    AccountServiceImpl accountService;
+    private final AccountServiceImpl accountService;
 
     @Bean(BeanIds.AUTHENTICATION_MANAGER)
     @Override
@@ -32,8 +33,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManager();
     }
 
-    @Autowired
-    FilterAuthToken filterAuthToken;
+    private final FilterAuthToken filterAuthToken;
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

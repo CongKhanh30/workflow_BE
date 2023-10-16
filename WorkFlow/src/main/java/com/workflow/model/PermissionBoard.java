@@ -10,13 +10,13 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Permission_Team {
+public class PermissionBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    private Teams teams;
+    private Board board;
 
     @ManyToOne
     private Permission permission;

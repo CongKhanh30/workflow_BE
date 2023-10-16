@@ -4,8 +4,6 @@ import lombok.*;
 
 @Setter
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
 public class AddMemberRequest {
     private int teamId;
     private String username;
