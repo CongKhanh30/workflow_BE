@@ -19,9 +19,6 @@ public class PermissionTeamServiceImpl implements IPermissionTeamService {
     private final ITeamRepo teamRepo;
     private final IAccountRepo accountRepo;
     private final IPermissionRepo permissionRepo;
-    private final AccountServiceImpl accountService;
-    private final int ROLE_ADMIN_ID = 1;
-    private final int ROLE_MEMBER_ID = 2;
 
     public List<PermissionTeam> getByUsername(String username){
         return permissionTeamRepo.findAllByAccount_Username(username);
@@ -37,11 +34,13 @@ public class PermissionTeamServiceImpl implements IPermissionTeamService {
         return permissionTeam;
     }
     public boolean adminCheck(String username, int teamId){
+        int ROLE_ADMIN_ID = 1;
         return (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId) != null
                 && (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId).getPermission().getId() == ROLE_ADMIN_ID));
 
     }
     public boolean memberCheck(String username, int teamId){
+        int ROLE_MEMBER_ID = 2;
         return permissionTeamRepo.findByAccount_UsernameAndTeamsId(username, teamId) != null
                 && (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username, teamId).getPermission().getId() == ROLE_MEMBER_ID);
     }
