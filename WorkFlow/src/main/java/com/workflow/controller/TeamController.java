@@ -58,12 +58,13 @@ public class TeamController {
 
     @PostMapping("/add")
     public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest) {
-        if(permissionTeamService.isMember(addMemberRequest.getUsername(), addMemberRequest.getTeamId())){
-            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already a member");
-        }
+
         if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())) {
             if (accountRepo.findByUsername(addMemberRequest.getUsername()) == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
+            }
+            if(permissionTeamService.isMember(addMemberRequest.getUsername(), addMemberRequest.getTeamId())){
+                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already a member");
             }
             permissionTeamService.addMember(addMemberRequest);
             return ResponseEntity.ok("Succeed");
