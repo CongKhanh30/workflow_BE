@@ -54,22 +54,31 @@ public class AccountController {
     }
 
 
-    @PostMapping("/changePassword")
-    public ResponseEntity<?> changePassword(@RequestBody Account account) {
+    @PutMapping("/changePassword")
+    public ResponseEntity<?> changePassword(
+            @RequestParam("currentPassword") String currentPassword,
+            @RequestParam("newPassword") String newPassword
+    ) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
         if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
             String currentUsername = userDetails.getUsername();
             Account currentAccount = iAccountService.findByUsername(currentUsername);
-            if (!currentAccount.getPassword().equals(account.getPassword())) {
+
+            if (!currentAccount.getPassword().equals(currentPassword)) {
                 return new ResponseEntity<>("Mật khẩu cũ không đúng", HttpStatus.BAD_REQUEST);
             }
-            currentAccount.setPassword(account.getPassword());
+
+            // Change Password
+            currentAccount.setPassword(newPassword);
             accountServiceImpl.save(currentAccount);
+
             return new ResponseEntity<>("Cập nhật mật khẩu thành công", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Không thể xác định người dùng hiện tại", HttpStatus.UNAUTHORIZED);
         }
     }
+
 }
