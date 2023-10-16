@@ -45,8 +45,8 @@ public class PermissionTeamServiceImpl implements IPermissionTeamService {
         return permissionTeamRepo.findByAccount_UsernameAndTeamsId(username, teamId) != null
                 && (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username, teamId).getPermission().getId() == ROLE_MEMBER_ID);
     }
-    public boolean isMember(int teamId){
-        return (adminCheck(accountService.getCurrentUsername(), teamId)
-                ||memberCheck(accountService.getCurrentUsername(), teamId));
+    public boolean isMember(String username,int teamId){
+        return (adminCheck(username, teamId)
+                ||memberCheck(username, teamId));
     }
 }
