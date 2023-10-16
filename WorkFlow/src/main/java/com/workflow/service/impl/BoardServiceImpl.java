@@ -5,23 +5,21 @@ import com.workflow.model.Board;
 import com.workflow.repository.IAccountRepo;
 import com.workflow.repository.IBoardRepo;
 import com.workflow.service.IBoardService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class BoardServiceImpl implements IBoardService {
 
-    @Autowired
-    IBoardRepo boardRepo;
+    private final IBoardRepo boardRepo;
 
-    @Autowired
-    IAccountRepo accountRepo;
+    private final IAccountRepo accountRepo;
 
-    @Autowired
-    AccountServiceImpl accountService;
+    private final AccountServiceImpl accountService;
 
     public List<BoardResponse> findAllByTeam(int id) {
         List<Board> boardList =  boardRepo.findAllByTeam(id);
@@ -30,7 +28,7 @@ public class BoardServiceImpl implements IBoardService {
             boardResponses.add(new BoardResponse(
                     board.getId(),
                     board.getName(),
-                    board.getIs_Public()
+                    board.getIsPublic()
             ));
         }
         return boardResponses;

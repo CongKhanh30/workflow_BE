@@ -3,7 +3,7 @@ package com.workflow.dto;
 import lombok.Getter;
 
 @Getter
-public class RenameListRequest {
+public class RenameColRequest {
     private String newName;
-    private int listId;
+    private int colId;
 }

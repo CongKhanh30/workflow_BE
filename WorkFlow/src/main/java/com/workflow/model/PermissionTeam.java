@@ -10,18 +10,17 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class List {
+public class PermissionTeam {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
-    private String name;
-
-    @Column(nullable = false)
-    private int position;
+    @ManyToOne
+    private Teams teams;
 
     @ManyToOne
-    @JoinColumn(name = "board_id")
-    private Board board;
+    private Permission permission;
+
+    @ManyToOne
+    private Account account;
 }

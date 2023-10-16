@@ -3,7 +3,7 @@ package com.workflow.config;
 import com.workflow.controller.AccountController;
 import com.workflow.service.impl.AccountServiceImpl;
 import io.jsonwebtoken.Jwts;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,10 +18,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Service
+@RequiredArgsConstructor
 public class FilterAuthToken extends OncePerRequestFilter {
 
-    @Autowired
-    private AccountServiceImpl accountService;
+    private final AccountServiceImpl accountService;
 
     private String getTokenFromRequest(HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");

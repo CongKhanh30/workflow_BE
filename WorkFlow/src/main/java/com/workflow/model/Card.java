@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,8 +27,8 @@ public class Card {
     private Date dueDate;
 
     @ManyToOne
-    @JoinColumn(name = "list_id")
-    private List list;
+    @JoinColumn(name = "col_id")
+    private Col col;
 
 
     @JoinTable(
@@ -36,6 +36,6 @@ public class Card {
             joinColumns = @JoinColumn(name = "card_id"),
             inverseJoinColumns = @JoinColumn(name = "account_id"))
     @ManyToMany(fetch = FetchType.EAGER)
-    private Set<Account> accounts;
+    private List<Account> accounts;
 }
 

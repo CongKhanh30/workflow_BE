@@ -10,17 +10,16 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Permission_Board {
+public class CardLabels {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @ManyToOne
-    private Board board;
+    @JoinColumn(name = "card_id")
+    private Card card;
 
     @ManyToOne
-    private Permission permission;
-
-    @ManyToOne
-    private Account account;
+    @JoinColumn(name = "label_id")
+    private Label label;
 }

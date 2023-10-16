@@ -1,0 +1,12 @@
+
+k	java:S1176"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ίζ—κόÿÿÿÿ
+s
+java:S1488S"]Immediately return this expression instead of assigning it to the temporary variable "teams".(Κδ
+M
+java:S3655J"7Call "Optional#isPresent()" before accessing the value.(Κδ
+M
+java:S3655S"7Call "Optional#isPresent()" before accessing the value.(Κδ
+—
+java:S1186D"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(έεÒΰ
+A
+java:S11680"+Return an empty collection instead of null.(¥Ήο

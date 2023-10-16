@@ -7,6 +7,7 @@ import com.workflow.dto.TeamResponse;
 import com.workflow.model.Teams;
 import com.workflow.repository.IAccountRepo;
 import com.workflow.service.impl.AccountServiceImpl;
+import com.workflow.service.impl.PermissionTeamServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -29,13 +30,13 @@ public class TeamController {
         return teamService.getAll();
     }
 
-    @GetMapping("/getTeamById/{id}")
-    public ResponseEntity teamDetails(@PathVariable int id){
+    @GetMapping("/{id}")
+    public ResponseEntity teamDetails(@PathVariable int id) {
         TeamDetailResponse teamDetailResponse = teamService.findById(id);
-        if (teamDetailResponse == null) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        if (teamDetailResponse != null) {
+            return ResponseEntity.ok(teamDetailResponse);
         } else {
-            return new ResponseEntity(teamDetailResponse, HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Team not found");
         }
     }
 
@@ -54,21 +55,26 @@ public class TeamController {
             return new ResponseEntity<>("Delete success", HttpStatus.OK);
         }
     }
-    @PostMapping("/addMember")
-    public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){
-        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())){
-            if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
-        }
-        permissionTeamService.addMember(addMemberRequest);
-        return ResponseEntity.ok("succeed");
+
+    @PostMapping("/add")
+    public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest) {
+
+        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())) {
+            if (accountRepo.findByUsername(addMemberRequest.getUsername()) == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
+            }
+            if(permissionTeamService.isMember(addMemberRequest.getUsername(), addMemberRequest.getTeamId())){
+                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already a member");
+            }
+            permissionTeamService.addMember(addMemberRequest);
+            return ResponseEntity.ok("Succeed");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
 
     @PostMapping("/rn")
-    public ResponseEntity<String> rename(@RequestBody ChangeNameRequest changeNameRequest){
-        if (teamService.changeName(changeNameRequest.getName(),changeNameRequest.getTeamId()))
+    public ResponseEntity<String> rename(@RequestBody ChangeNameRequest changeNameRequest) {
+        if (teamService.changeName(changeNameRequest.getName(), changeNameRequest.getTeamId()))
             return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
