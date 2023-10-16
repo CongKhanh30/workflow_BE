@@ -21,6 +21,7 @@ public class ColServiceImpl {
     private final PermissionTeamServiceImpl permissionTeamService;
     private final IBoardRepo boardRepo;
     private final CardServiceImpl cardService;
+    private final AccountServiceImpl accountService;
 
 
     public List<ColResponse> getCol(int boardId){
@@ -40,7 +41,7 @@ public class ColServiceImpl {
     public boolean rename(String name, int colId){
         Optional<Col> colOtp = colRepo.findById(colId);
         if (colOtp.isPresent()
-                && permissionTeamService.isMember(colOtp.get().getBoard().getTeam().getId())){
+                && permissionTeamService.isMember(accountService.getCurrentUsername(), colOtp.get().getBoard().getTeam().getId())){
             Col col = colOtp.get();
             col.setName(name);
             colRepo.save(col);
