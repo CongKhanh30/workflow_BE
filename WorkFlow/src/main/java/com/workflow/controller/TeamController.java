@@ -78,6 +78,4 @@ public class TeamController {
             return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
-
-
 }
