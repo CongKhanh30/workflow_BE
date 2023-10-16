@@ -7,7 +7,6 @@ import com.workflow.dto.TeamResponse;
 import com.workflow.model.Teams;
 import com.workflow.repository.IAccountRepo;
 import com.workflow.service.impl.AccountServiceImpl;
-import com.workflow.service.impl.PermissionTeamServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,13 +29,13 @@ public class TeamController {
         return teamService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/getTeamById/{id}")
     public ResponseEntity teamDetails(@PathVariable int id){
         TeamDetailResponse teamDetailResponse = teamService.findById(id);
-        if (teamDetailResponse != null) {
-            return ResponseEntity.ok(teamDetailResponse);
+        if (teamDetailResponse == null) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Team not found");
+            return new ResponseEntity(teamDetailResponse, HttpStatus.OK);
         }
     }
 
@@ -55,7 +54,7 @@ public class TeamController {
             return new ResponseEntity<>("Delete success", HttpStatus.OK);
         }
     }
-    @PostMapping("/add")
+    @PostMapping("/addMember")
     public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){
         if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())){
             if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
@@ -73,6 +72,4 @@ public class TeamController {
             return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
-
-
 }

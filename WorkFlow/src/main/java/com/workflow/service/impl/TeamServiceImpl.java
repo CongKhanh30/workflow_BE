@@ -49,7 +49,8 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public List<Teams> findAll() {
-        return null;
+
+        return teamRepo.findAll();
     }
 
     @Override
