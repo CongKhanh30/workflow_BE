@@ -1,6 +1,7 @@
 package com.workflow.controller;
 
 import com.workflow.dto.AccountToken;
+import com.workflow.dto.ChangePasswordRequest;
 import com.workflow.model.Account;
 import com.workflow.service.IAccountService;
 import com.workflow.service.impl.AccountServiceImpl;
