@@ -17,8 +17,6 @@ v
 FWorkFlow/src/main/java/com/workflow/controller/RegisterController.java,6\d\6d2a501b350e7854669735de5880bbe137992970
 x
 HWorkFlow/src/main/java/com/workflow/service/impl/AccountServiceImpl.java,b\e\bef7ec5f32d83f5f57eecfc57f3245cdc2f48070
-r
-BWorkFlow/src/main/java/com/workflow/dto/ChangePasswordRequest.java,d\e\de6f6e6c4820c54c131f488ce9a91d229ed08839
 f
 6WorkFlow/src/main/java/com/workflow/model/Account.java,b\8\b89176a17089f5eb55b3f378a21b34899ae8533f
 k
