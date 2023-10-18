@@ -61,6 +61,7 @@ public class AccountController {
     ) {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        //tao principal de lay username hien tai cua nguoi dung dang dang nhap vao he thong de so sanh voi password hien tai
 
         if (principal instanceof UserDetails) {
             UserDetails userDetails = (UserDetails) principal;
