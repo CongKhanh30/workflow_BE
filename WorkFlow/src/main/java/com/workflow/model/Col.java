@@ -5,28 +5,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Card_Attachment {
+public class Col {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
     @Column(nullable = false)
-    private Date uploader_date;
+    private String name;
 
     @Column(nullable = false)
-    private String file_name;
-
-    @Column(nullable = false)
-    private String location;
+    private int position;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private Card card;
-
+    @JoinColumn(name = "board_id")
+    private Board board;
 }

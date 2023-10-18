@@ -26,5 +26,5 @@ public class Board {
     private Teams team;
 
     @Column(nullable = false)
-    private Boolean is_Public;
+    private Boolean isPublic;
 }

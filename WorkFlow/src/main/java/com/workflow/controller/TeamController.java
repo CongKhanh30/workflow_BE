@@ -31,7 +31,7 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity teamDetails(@PathVariable int id){
+    public ResponseEntity teamDetails(@PathVariable int id) {
         TeamDetailResponse teamDetailResponse = teamService.findById(id);
         if (teamDetailResponse != null) {
             return ResponseEntity.ok(teamDetailResponse);
@@ -55,24 +55,27 @@ public class TeamController {
             return new ResponseEntity<>("Delete success", HttpStatus.OK);
         }
     }
+
     @PostMapping("/add")
-    public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest){
-        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())){
-            if(accountRepo.findByUsername(addMemberRequest.getUsername()) == null ){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
-        }
-        permissionTeamService.addMember(addMemberRequest);
-        return ResponseEntity.ok("succeed");
+    public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest) {
+
+        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())) {
+            if (accountRepo.findByUsername(addMemberRequest.getUsername()) == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
+            }
+            if(permissionTeamService.isMember(addMemberRequest.getUsername(), addMemberRequest.getTeamId())){
+                return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already a member");
+            }
+            permissionTeamService.addMember(addMemberRequest);
+            return ResponseEntity.ok("Succeed");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
 
     @PostMapping("/rn")
-    public ResponseEntity<String> rename(@RequestBody ChangeNameRequest changeNameRequest){
-        if (teamService.changeName(changeNameRequest.getName(),changeNameRequest.getTeamId()))
+    public ResponseEntity<String> rename(@RequestBody ChangeNameRequest changeNameRequest) {
+        if (teamService.changeName(changeNameRequest.getName(), changeNameRequest.getTeamId()))
             return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
     }
-
-
 }
