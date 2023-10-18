@@ -35,6 +35,7 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public Account findByUsername(String username) {
         Account account = iAccountRepo.findByUsername(username);
+        if (account == null) return null;
         account.setRoles(getRoles(account));
         return account;
     }
