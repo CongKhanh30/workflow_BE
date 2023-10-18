@@ -17,8 +17,6 @@ v
 FWorkFlow/src/main/java/com/workflow/controller/RegisterController.java,6\d\6d2a501b350e7854669735de5880bbe137992970
 x
 HWorkFlow/src/main/java/com/workflow/service/impl/AccountServiceImpl.java,b\e\bef7ec5f32d83f5f57eecfc57f3245cdc2f48070
-r
-BWorkFlow/src/main/java/com/workflow/dto/ChangePasswordRequest.java,d\e\de6f6e6c4820c54c131f488ce9a91d229ed08839
 f
 6WorkFlow/src/main/java/com/workflow/model/Account.java,b\8\b89176a17089f5eb55b3f378a21b34899ae8533f
 k
@@ -29,3 +27,17 @@ c
 3WorkFlow/src/main/java/com/workflow/model/Card.java,3\d\3d88066a48d0fbe1b0794fa5895c40a2aeed936e
 u
 EWorkFlow/src/main/java/com/workflow/controller/AccountController.java,6\e\6e37e39eeb46e5c9297a9e6c10c6ed9a3053ce8f
+n
+>WorkFlow/src/main/java/com/workflow/model/PermissionBoard.java,c\2\c2291ea514f5eecff7f8d272df85af54e66c14a8
+s
+CWorkFlow/src/main/java/com/workflow/controller/BoardController.java,4\5\453a94b61722afbe987652e017e6c751a11fb4a4
+€
+PWorkFlow/src/main/java/com/workflow/service/impl/PermissionBoardServiceImpl.java,5\9\591bc59986adbfc2e4333025d81c045328c416f1
+x
+HWorkFlow/src/main/java/com/workflow/repository/IPermissionBoardRepo.java,e\1\e1bd7bfac2227d8ffcbb4a54378133a0593b860d
+r
+BWorkFlow/src/main/java/com/workflow/dto/AddBoardMemberRequest.java,5\0\501484f8d61601692bc24dbecebcee4c8e29e143
+t
+DWorkFlow/src/main/java/com/workflow/service/impl/ColServiceImpl.java,a\5\a5e65e9caa291ab00fb16f66f47302353a4e32f7
+q
+AWorkFlow/src/main/java/com/workflow/controller/ColController.java,f\7\f755ab54560342e3bf2841668ec1d545482ed888

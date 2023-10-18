@@ -1,9 +1,12 @@
 package com.workflow.controller;
 
+import com.workflow.dto.AddBoardMemberRequest;
 import com.workflow.dto.BoardResponse;
 import com.workflow.model.Board;
 import com.workflow.model.Teams;
+import com.workflow.service.impl.AccountServiceImpl;
 import com.workflow.service.impl.BoardServiceImpl;
+import com.workflow.service.impl.PermissionBoardServiceImpl;
 import com.workflow.service.impl.TeamServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +23,9 @@ public class BoardController {
 
 
     private final BoardServiceImpl boardService;
-
+    private final PermissionBoardServiceImpl permissionBoardService;
     private final TeamServiceImpl teamService;
+    private final AccountServiceImpl accountService;
 
     @GetMapping("/getAllByIdTeam/{idTeam}")
     public ResponseEntity<List<BoardResponse>> getAllBoard(@PathVariable int idTeam) {
@@ -56,12 +60,14 @@ public class BoardController {
 
     @GetMapping("/removeBoard/{id}")
     public ResponseEntity<String> removeBoard(@PathVariable int id) {
+        if(permissionBoardService.adminCheck(accountService.getCurrentUsername(), id)){
         Board boardRemove = boardService.findByTeamId(id);
         if (boardRemove == null) {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
         }
         boardService.delete(id);
         return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
+        } return new ResponseEntity<>("no permission", HttpStatus.FORBIDDEN);
     }
 
     @PostMapping("/editNameBoard/{id}")
@@ -84,4 +90,17 @@ public class BoardController {
         }
         return new ResponseEntity<>(board, HttpStatus.OK);
     }
+
+    @PostMapping("/add")
+    public ResponseEntity addMember(@RequestBody AddBoardMemberRequest addBoardMemberRequest){
+        if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId()))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
+        if(accountService.findByUsername(addBoardMemberRequest.getUsername())==null)
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
+        if(permissionBoardService.isMember(addBoardMemberRequest.getUsername(), addBoardMemberRequest.getBoardId()))
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already added");
+        if(permissionBoardService.addMember(addBoardMemberRequest)) return ResponseEntity.ok("succeed");
+        return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("Add fail");
+    }
+
 }

@@ -35,6 +35,7 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public Account findByUsername(String username) {
         Account account = iAccountRepo.findByUsername(username);
+        if (account == null) return null;
         account.setRoles(getRoles(account));
         return account;
     }
@@ -42,6 +43,7 @@ public class AccountServiceImpl implements IAccountService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Account account = findByUsername(username);
+        account.setRoles(getRoles(account));
         return new User(username, account.getPassword(), getRoles(account));
     }
 

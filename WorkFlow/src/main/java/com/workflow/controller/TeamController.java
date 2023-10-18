@@ -1,9 +1,6 @@
 package com.workflow.controller;
 
-import com.workflow.dto.AddMemberRequest;
-import com.workflow.dto.ChangeNameRequest;
-import com.workflow.dto.TeamDetailResponse;
-import com.workflow.dto.TeamResponse;
+import com.workflow.dto.*;
 import com.workflow.model.Teams;
 import com.workflow.repository.IAccountRepo;
 import com.workflow.service.impl.AccountServiceImpl;
@@ -57,16 +54,16 @@ public class TeamController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<String> addMember(@RequestBody AddMemberRequest addMemberRequest) {
+    public ResponseEntity<String> addMember(@RequestBody AddTeamMemberRequest addTeamMemberRequest) {
 
-        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addMemberRequest.getTeamId())) {
-            if (accountRepo.findByUsername(addMemberRequest.getUsername()) == null) {
+        if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), addTeamMemberRequest.getTeamId())) {
+            if (accountRepo.findByUsername(addTeamMemberRequest.getUsername()) == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Username not found");
             }
-            if(permissionTeamService.isMember(addMemberRequest.getUsername(), addMemberRequest.getTeamId())){
+            if(permissionTeamService.isMember(addTeamMemberRequest.getUsername(), addTeamMemberRequest.getTeamId())){
                 return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already a member");
             }
-            permissionTeamService.addMember(addMemberRequest);
+            permissionTeamService.addMember(addTeamMemberRequest);
             return ResponseEntity.ok("Succeed");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
@@ -77,5 +74,17 @@ public class TeamController {
         if (teamService.changeName(changeNameRequest.getName(), changeNameRequest.getTeamId()))
             return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Don't have permission");
+    }
+
+    @DeleteMapping("/kick")
+    public ResponseEntity kickMember(@RequestBody KickTeamMemberReq kickTeamMemberReq){
+        if(permissionTeamService.adminCheck(accountService.getCurrentUsername(), kickTeamMemberReq.getTeamId())){
+            if (permissionTeamService.isMember(kickTeamMemberReq.getUsername(), kickTeamMemberReq.getTeamId())){
+                permissionTeamService.kickMember(kickTeamMemberReq);
+                return ResponseEntity.ok("succeed");
+            }
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Username not found");
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission");
     }
 }
