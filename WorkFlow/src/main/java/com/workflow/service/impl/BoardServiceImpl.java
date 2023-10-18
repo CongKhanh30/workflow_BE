@@ -1,11 +1,15 @@
 package com.workflow.service.impl;
 
 import com.workflow.dto.BoardResponse;
+import com.workflow.dto.ColResponse;
 import com.workflow.model.Board;
+import com.workflow.model.Col;
 import com.workflow.repository.IAccountRepo;
 import com.workflow.repository.IBoardRepo;
 import com.workflow.service.IBoardService;
+import com.workflow.service.IColService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,6 +18,8 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements IBoardService {
+    @Autowired
+    ColServiceImpl colService;
 
     private final IBoardRepo boardRepo;
 
@@ -25,10 +31,12 @@ public class BoardServiceImpl implements IBoardService {
         List<Board> boardList =  boardRepo.findAllByTeam(id);
         List<BoardResponse> boardResponses = new ArrayList<>();
         for (Board board : boardList) {
+            List<ColResponse> cols = colService.getCol(board.getId());
             boardResponses.add(new BoardResponse(
                     board.getId(),
                     board.getName(),
-                    board.getIsPublic()
+                    board.getIsPublic(),
+                    cols
             ));
         }
         return boardResponses;
