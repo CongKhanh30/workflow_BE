@@ -4,7 +4,7 @@ import lombok.*;
 
 @Setter
 @Getter
-public class AddMemberRequest {
+public class AddTeamMemberRequest {
     private int teamId;
     private String username;
     private int permissionId;

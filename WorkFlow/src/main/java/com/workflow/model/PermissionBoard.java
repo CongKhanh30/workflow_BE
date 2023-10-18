@@ -23,4 +23,10 @@ public class PermissionBoard {
 
     @ManyToOne
     private Account account;
+
+    public PermissionBoard(Board board, Permission permission, Account account){
+        this.board = board;
+        this.permission = permission;
+        this.account = account;
+    }
 }
