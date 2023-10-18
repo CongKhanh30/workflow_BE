@@ -93,8 +93,7 @@ public class BoardController {
 
     @PostMapping("/add")
     public ResponseEntity addMember(@RequestBody AddBoardMemberRequest addBoardMemberRequest){
-        if (!permissionBoardService.isMember(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId())
-                ||!permissionBoardService.adminCheck(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId()))
+        if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
         if(accountService.findByUsername(addBoardMemberRequest.getUsername())==null)
             return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account not found");

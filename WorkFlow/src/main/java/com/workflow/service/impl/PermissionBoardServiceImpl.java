@@ -26,11 +26,13 @@ public class PermissionBoardServiceImpl {
     public boolean adminCheck(String username, int boardId){
         final int adminPermissionId = 1;
         PermissionBoard permissionBoard = permissionBoardRepo.findByAccount_UsernameAndBoard_Id(username,boardId);
+        if (permissionBoard == null) return false;
         return (permissionBoard.getPermission().getId() == adminPermissionId);
     }
     public boolean memberCheck(String username, int boardId){
         final int memberPermissionId = 2;
         PermissionBoard permissionBoard = permissionBoardRepo.findByAccount_UsernameAndBoard_Id(username,boardId);
+        if (permissionBoard == null) return false;
         return (permissionBoard.getPermission().getId() == memberPermissionId);
     }
 
