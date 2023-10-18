@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -60,14 +61,14 @@ public class BoardController {
 
     @GetMapping("/removeBoard/{id}")
     public ResponseEntity<String> removeBoard(@PathVariable int id) {
-        if(permissionBoardService.adminCheck(accountService.getCurrentUsername(), id)){
+
         Board boardRemove = boardService.findByTeamId(id);
         if (boardRemove == null) {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
         }
         boardService.delete(id);
         return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
-        } return new ResponseEntity<>("no permission", HttpStatus.FORBIDDEN);
+
     }
 
     @PostMapping("/editNameBoard/{id}")

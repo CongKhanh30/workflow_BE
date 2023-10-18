@@ -26,12 +26,16 @@ public class ColServiceImpl {
 
     public List<ColResponse> getCol(int boardId){
         Optional<Board> boardOpt = boardRepo.findById(boardId);
-        if (boardOpt.isPresent()) {
+        // optional la 1 kieu du lieu de tranh null pointer exception khi get data tu db
+        if (boardOpt.isPresent()) { // neu board ton tai thi get all col cua board do
             List<Col> cols = colRepo.findAllByBoardOrderByPosition(boardOpt.get());
+            // findAllByBoardOrderByPosition la ham tuong duong voi cau lenh sql: select * from col where board_id = ? order by position
             return cols.stream()
                     .map(l -> new ColResponse(l.getId(), l.getPosition(), l.getName(), buildColMini(l)))
                     .sorted(Comparator.comparing(ColResponse::getPosition))
                     .collect(Collectors.toList());
+            // tra ve 1 list ColResponse sau khi da sort theo position,collection la 1 interface cua java de xu ly cac collection
+            // map la 1 ham de convert tu 1 kieu du lieu sang kieu du lieu khac
         }
         return null;
     }
