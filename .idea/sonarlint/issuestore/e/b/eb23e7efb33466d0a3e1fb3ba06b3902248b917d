@@ -1,7 +1,7 @@
 
-L
-java:S1066'"/Merge this if statement with the enclosing one.(™Ïİ¯8ç¢øÉ±1
+r	java:S117&"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Æª©Íüÿÿÿÿ8ƒ×ó¹³1
+l	java:S117,"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¨Á	8æõ¹³1
 Y
-java:S3655""7Call "Optional#isPresent()" before accessing the value.(õÙäÏşÿÿÿÿ8Ÿ£øÉ±1
+java:S3655""7Call "Optional#isPresent()" before accessing the value.(õÙäÏşÿÿÿÿ8·—å¹³1
 Y
-java:S3655 "7Call "Optional#isPresent()" before accessing the value.(´èÔíüÿÿÿÿ8£øÉ±1
+java:S3655 "7Call "Optional#isPresent()" before accessing the value.(´èÔíüÿÿÿÿ8·—å¹³1

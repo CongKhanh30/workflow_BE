@@ -54,4 +54,14 @@ public class ColServiceImpl {
         return false;
     }
 
+    public void create(String name, int boardId) {
+        Optional<Board> boardOpt = boardRepo.findById(boardId);
+        Col col = new Col();
+        if (boardOpt.isPresent()){
+            col.setName(name);
+            col.setBoard(boardOpt.get());
+            col.setPosition(colRepo.findAllByBoardOrderByPosition(boardOpt.get()).size()+1);
+            colRepo.save(col);
+        }
+    }
 }
