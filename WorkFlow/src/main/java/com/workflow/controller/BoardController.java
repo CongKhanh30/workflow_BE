@@ -96,7 +96,7 @@ public class BoardController {
         if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
         if(accountService.findByUsername(addBoardMemberRequest.getUsername())==null)
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Account not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
         if(permissionBoardService.isMember(addBoardMemberRequest.getUsername(), addBoardMemberRequest.getBoardId()))
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already added");
         if(permissionBoardService.addMember(addBoardMemberRequest)) return ResponseEntity.ok("succeed");
