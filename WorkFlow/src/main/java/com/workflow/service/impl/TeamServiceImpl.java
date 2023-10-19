@@ -6,7 +6,6 @@ import com.workflow.dto.TeamResponse;
 import com.workflow.model.Permission;
 import com.workflow.model.PermissionTeam;
 import com.workflow.model.Teams;
-import com.workflow.repository.IPermissionRepo;
 import com.workflow.repository.IPermissionTeamRepo;
 import com.workflow.repository.ITeamRepo;
 import com.workflow.service.ITeamService;
@@ -14,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 public class TeamServiceImpl implements ITeamService {
     private final IPermissionTeamRepo permissionTeamRepo;
     private final AccountServiceImpl accountService;
-    private final IPermissionRepo permissionRepo;
 
     private final ITeamRepo teamRepo;
     private final PermissionTeamServiceImpl permissionTeamService;
@@ -52,16 +51,11 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public void save(Teams teams) {
-
         PermissionTeam permissionteam = new PermissionTeam();
-
         Teams teamCreate = teamRepo.save(teams);
         permissionteam.setTeams(teamCreate);
-
         permissionteam.setAccount(accountService.getCurrentAccount());
-
         Permission permission = new Permission(1, "Admin");
-
         permissionteam.setPermission(permission);
         permissionTeamRepo.save(permissionteam);
     }
@@ -76,32 +70,29 @@ public class TeamServiceImpl implements ITeamService {
         Teams teams = teamRepo.findById(id).get();
         List<PermissionTeam> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
         permissionTeamRepo.deleteAll(permissionTeamList);
-
         teamRepo.deleteById(id);
     }
 
     @Override
     public Teams findByTeamId(int id) {
-        Teams teams = teamRepo.findById(id).get();
-        return teams;
+        return teamRepo.findById(id).orElse(null);
     }
 
     public boolean changeName(String name, int teamId){
-        if(teamRepo.findById(teamId).isPresent()) {
-            Teams team = teamRepo.findById(teamId).get();
-            if (permissionTeamService.adminCheck(accountService.getCurrentUsername(), teamId)) {
-                team.setName(name);
-                teamRepo.save(team);
+        Optional<Teams> teamOtp = teamRepo.findById(teamId);
+            if (teamOtp.isPresent() && permissionTeamService.adminCheck(accountService.getCurrentUsername(), teamId)) {
+                teamOtp.get().setName(name);
+                teamRepo.save(teamOtp.get());
                 return true;
             }
-        }
         return false;
     }
 
     public TeamDetailResponse findById(int id){
-        if (teamRepo.findById(id).isPresent()
+        Optional<Teams> teamsOtp = teamRepo.findById(id);
+        if (teamsOtp.isPresent()
                 && permissionTeamRepo.findByAccount_UsernameAndTeamsId(accountService.getCurrentUsername(), id)!= null){
-            Teams teams = teamRepo.findById(id).get();
+            Teams teams = teamsOtp.get();
             TeamDetailResponse teamDetailResponse = new TeamDetailResponse();
             teamDetailResponse.setName(teams.getName());
             List<PermissionTeam> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
