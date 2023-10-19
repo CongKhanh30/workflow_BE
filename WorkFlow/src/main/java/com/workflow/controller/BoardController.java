@@ -13,7 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -30,30 +29,23 @@ public class BoardController {
 
     @GetMapping("/getAllByIdTeam/{idTeam}")
     public ResponseEntity<List<BoardResponse>> getAllBoard(@PathVariable int idTeam) {
-
         List<BoardResponse> boards = boardService.findAllByTeam(idTeam);
-        if (boards.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        if (boards.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(boards, HttpStatus.OK);
     }
 
     @GetMapping
     public ResponseEntity<List<Board>> getAllBoard() {
         List<Board> boards = boardService.findAll();
-        if (boards.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
+        if (boards.isEmpty()) return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         return new ResponseEntity<>(boards, HttpStatus.OK);
     }
 
     @PostMapping("/createBoard/{idTeam}")
     public ResponseEntity<String> createBoard(@RequestBody Board board, @PathVariable int idTeam) {
-
         Teams teams = teamService.findByTeamId(idTeam);
-        if (teams == null) {
+        if (teams == null)
             return new ResponseEntity<>("Team not found", HttpStatus.NOT_FOUND);
-        }
         board.setTeam(teams);
         boardService.save(board);
         return new ResponseEntity<>("Create Board Success", HttpStatus.OK);
@@ -61,7 +53,6 @@ public class BoardController {
 
     @GetMapping("/removeBoard/{id}")
     public ResponseEntity<String> removeBoard(@PathVariable int id) {
-
         Board boardRemove = boardService.findByTeamId(id);
         if (boardRemove == null) {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
@@ -93,7 +84,7 @@ public class BoardController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addMember(@RequestBody AddBoardMemberRequest addBoardMemberRequest) {
+    public ResponseEntity<String> addMember(@RequestBody AddBoardMemberRequest addBoardMemberRequest) {
         if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
         if (accountService.findByUsername(addBoardMemberRequest.getUsername()) == null)
@@ -105,7 +96,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/kick")
-    public ResponseEntity kickMember(String username, int boardId) {
+    public ResponseEntity<String> kickMember(String username, int boardId) {
         if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), boardId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
         if (permissionBoardService.isMember(username, boardId)){
@@ -114,4 +105,5 @@ public class BoardController {
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("username not found");
     }
+
 }
