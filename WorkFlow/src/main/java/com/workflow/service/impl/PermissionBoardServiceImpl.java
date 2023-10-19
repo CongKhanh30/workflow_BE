@@ -57,4 +57,9 @@ public class PermissionBoardServiceImpl {
         }
         return null;
     }
+
+    public void kickMember(String username, int boardId) {
+        PermissionBoard permissionBoard = permissionBoardRepo.findByAccount_UsernameAndBoard_Id(username, boardId);
+        if (permissionBoard != null ) permissionBoardRepo.delete(permissionBoard);
+    }
 }

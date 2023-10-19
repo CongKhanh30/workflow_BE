@@ -41,3 +41,15 @@ t
 DWorkFlow/src/main/java/com/workflow/service/impl/ColServiceImpl.java,a\5\a5e65e9caa291ab00fb16f66f47302353a4e32f7
 q
 AWorkFlow/src/main/java/com/workflow/controller/ColController.java,f\7\f755ab54560342e3bf2841668ec1d545482ed888
+d
+4WorkFlow/src/main/java/com/workflow/model/Label.java,f\4\f49c1d1ab5877bd066c814dbebaa3e5f342d7084
+m
+=WorkFlow/src/main/java/com/workflow/dto/MiniCardResponse.java,2\2\22745b07f99d4c56f0e172d34bdc4d0030fdfe8e
+h
+8WorkFlow/src/main/java/com/workflow/dto/ColResponse.java,d\d\dd120f2b94e1ec0111e32fb5d57d4101bae285eb
+j
+:WorkFlow/src/main/java/com/workflow/model/AccountRole.java,5\8\5897862583706f9afd979538f0a249f053803867
+b
+2WorkFlow/src/main/java/com/workflow/model/Col.java,b\8\b89a19e965390b2b483b78f98a3d9ac7d11f3488
+p
+@WorkFlow/src/main/java/com/workflow/repository/IAccountRepo.java,4\8\4821051b6f1ea5b1b1ac78fc5c6acbd0d36ea166

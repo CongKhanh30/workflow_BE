@@ -48,7 +48,7 @@ public class BoardController {
     }
 
     @PostMapping("/createBoard/{idTeam}")
-    public ResponseEntity<String> createBoard(@RequestBody Board board,@PathVariable int idTeam) {
+    public ResponseEntity<String> createBoard(@RequestBody Board board, @PathVariable int idTeam) {
 
         Teams teams = teamService.findByTeamId(idTeam);
         if (teams == null) {
@@ -72,7 +72,7 @@ public class BoardController {
     }
 
     @PostMapping("/editNameBoard/{id}")
-    public ResponseEntity<String> editNameBoard(@RequestBody Board board,@PathVariable int id) {
+    public ResponseEntity<String> editNameBoard(@RequestBody Board board, @PathVariable int id) {
         Board boardEdit = boardService.findByTeamId(id);
         if (boardEdit == null) {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
@@ -93,15 +93,25 @@ public class BoardController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity addMember(@RequestBody AddBoardMemberRequest addBoardMemberRequest){
+    public ResponseEntity addMember(@RequestBody AddBoardMemberRequest addBoardMemberRequest) {
         if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId()))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
-        if(accountService.findByUsername(addBoardMemberRequest.getUsername())==null)
+        if (accountService.findByUsername(addBoardMemberRequest.getUsername()) == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
-        if(permissionBoardService.isMember(addBoardMemberRequest.getUsername(), addBoardMemberRequest.getBoardId()))
+        if (permissionBoardService.isMember(addBoardMemberRequest.getUsername(), addBoardMemberRequest.getBoardId()))
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Already added");
-        if(permissionBoardService.addMember(addBoardMemberRequest)) return ResponseEntity.ok("succeed");
+        if (permissionBoardService.addMember(addBoardMemberRequest)) return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("Add fail");
     }
 
+    @DeleteMapping("/kick")
+    public ResponseEntity kickMember(String username, int boardId) {
+        if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), boardId))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
+        if (permissionBoardService.isMember(username, boardId)){
+            permissionBoardService.kickMember(username, boardId);
+            return ResponseEntity.ok("succeed");
+        }
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("ok");
+    }
 }
