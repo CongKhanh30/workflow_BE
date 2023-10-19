@@ -52,7 +52,7 @@ public class PermissionBoardServiceImpl {
         Account account = accountRepo.findByUsername(addBoardMemberRequest.getUsername());
         Optional<Board> boardOtp = boardRepo.findById(addBoardMemberRequest.getBoardId());
         Optional<Permission> permissionOtp = permissionRepo.findById(addBoardMemberRequest.getPermissionId());
-        if(account!=null && boardOtp != null && permissionOtp != null){
+        if(account!=null && boardOtp.isPresent() && permissionOtp.isPresent()){
             return new PermissionBoard(boardOtp.get(), permissionOtp.get(),account);
         }
         return null;
