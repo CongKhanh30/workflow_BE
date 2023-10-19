@@ -112,6 +112,6 @@ public class BoardController {
             permissionBoardService.kickMember(username, boardId);
             return ResponseEntity.ok("succeed");
         }
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body("ok");
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("username not found");
     }
 }
