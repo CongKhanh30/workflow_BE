@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +40,7 @@ public class BoardServiceImpl implements IBoardService {
 
     @Override
     public List<Board> findAll() {
-        List<Board> boardList = (List<Board>) boardRepo.findAll();
-        return boardList;
+        return boardRepo.findAll();
     }
 
     @Override
@@ -62,9 +60,8 @@ public class BoardServiceImpl implements IBoardService {
 
     @Override
     public void delete(int id) {
-//        permissionBoardRepo.deleteAllByBoard_Id(id);
         List<PermissionBoard> permissionBoards = permissionBoardRepo.findAllByBoard_Id(id);
-        permissionBoards.forEach(pb -> permissionBoardRepo.delete(pb));
+        permissionBoardRepo.deleteAll(permissionBoards);
         boardRepo.deleteById(id);
     }
 

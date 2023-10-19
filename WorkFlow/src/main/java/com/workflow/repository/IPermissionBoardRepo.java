@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface IPermissionBoardRepo extends JpaRepository<PermissionBoard, Integer> {
     PermissionBoard findByAccount_UsernameAndBoard_Id(String username, int boardId);
-    void deleteAllByBoard_Id(int boardId);
-
     List<PermissionBoard> findAllByBoard_Id(int boardId);
 }
