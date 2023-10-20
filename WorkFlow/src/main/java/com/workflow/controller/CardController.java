@@ -1,8 +1,11 @@
 package com.workflow.controller;
 
 import com.workflow.dto.CardDetailResponse;
+import com.workflow.dto.CreateCardReq;
 import com.workflow.model.Account;
 import com.workflow.model.Card;
+import com.workflow.model.Col;
+import com.workflow.repository.IColRepo;
 import com.workflow.service.impl.AccountServiceImpl;
 import com.workflow.service.impl.CardServiceImpl;
 import com.workflow.service.impl.PermissionBoardServiceImpl;
@@ -12,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @CrossOrigin("*")
@@ -21,6 +25,7 @@ public class CardController {
     private final CardServiceImpl cardService;
     private final PermissionBoardServiceImpl permissionBoardService;
     private final AccountServiceImpl accountService;
+    private final IColRepo colRepo;
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable int id){
         CardDetailResponse cardDetailResponse =cardService.findById(id);
@@ -40,5 +45,18 @@ public class CardController {
         List<Account> accounts = card.getAccounts();
         accounts.add(accountService.findByUsername(username));
         return ResponseEntity.status(200).body("Succeed");
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity createCard(@RequestBody CreateCardReq createCardReq){
+        Optional<Col> colOtp = colRepo.findById(createCardReq.getColId());
+        if (colOtp.isPresent()) {
+            if(permissionBoardService.isMember(accountService.getCurrentUsername(), colOtp.get().getBoard().getId())){
+                cardService.createCard(createCardReq);
+                return ResponseEntity.status(HttpStatus.CREATED).body("succeed");
+            }
+            return ResponseEntity.status(403).body("Don't have permission");
+        }
+        return ResponseEntity.status(HttpStatus.GONE).body("Col not found");
     }
 }

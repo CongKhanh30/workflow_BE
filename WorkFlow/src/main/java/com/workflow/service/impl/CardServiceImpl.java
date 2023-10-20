@@ -1,11 +1,13 @@
 package com.workflow.service.impl;
 
 import com.workflow.dto.CardDetailResponse;
+import com.workflow.dto.CreateCardReq;
 import com.workflow.dto.MiniAccount;
 import com.workflow.dto.MiniCardResponse;
 import com.workflow.model.Card;
 import com.workflow.model.Col;
 import com.workflow.repository.ICardRepo;
+import com.workflow.repository.IColRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CardServiceImpl {
     private final ICardRepo cardRepo;
+    private final IColRepo colRepo;
 
     public List<Card> getByCol(Col col) {
         return cardRepo.findAllByCol(col);
@@ -39,4 +42,12 @@ public class CardServiceImpl {
         return cardDetailResponse;
     }
     public Card getById(int id){ return cardRepo.findById(id).orElse(null);}
+
+    public void createCard(CreateCardReq createCardReq) {
+        Card card = new Card();
+        card.setTitle(createCardReq.getTitle());
+        card.setDescription(card.getDescription());
+        card.setCol(colRepo.findById(createCardReq.getColId()).orElse(null));
+        cardRepo.save(card);
+    }
 }
