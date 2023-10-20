@@ -38,4 +38,5 @@ public class CardServiceImpl {
         cardDetailResponse.setCol(card.getCol());
         return cardDetailResponse;
     }
+    public Card getById(int id){ return cardRepo.findById(id).orElse(null);}
 }
