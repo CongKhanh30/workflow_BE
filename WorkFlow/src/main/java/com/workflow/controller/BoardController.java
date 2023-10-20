@@ -26,6 +26,7 @@ public class BoardController {
     private final PermissionBoardServiceImpl permissionBoardService;
     private final TeamServiceImpl teamService;
     private final AccountServiceImpl accountService;
+    private final String noPermission = "Don't have permission";
 
     @GetMapping("/getAllByIdTeam/{idTeam}")
     public ResponseEntity<List<BoardResponse>> getAllBoard(@PathVariable int idTeam) {
@@ -58,7 +59,7 @@ public class BoardController {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
         }
         if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), id))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(noPermission);
         boardService.delete(id);
         return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
 
@@ -88,7 +89,7 @@ public class BoardController {
     @PostMapping("/add")
     public ResponseEntity<String> addMember(@RequestBody AddBoardMemberRequest addBoardMemberRequest) {
         if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), addBoardMemberRequest.getBoardId()))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(noPermission);
         if (accountService.findByUsername(addBoardMemberRequest.getUsername()) == null)
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Account not found");
         if (permissionBoardService.isMember(addBoardMemberRequest.getUsername(), addBoardMemberRequest.getBoardId()))
@@ -100,7 +101,7 @@ public class BoardController {
     @DeleteMapping("/kick")
     public ResponseEntity<String> kickMember(String username, int boardId) {
         if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), boardId))
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(noPermission);
         if (permissionBoardService.isMember(username, boardId)){
             permissionBoardService.kickMember(username, boardId);
             return ResponseEntity.ok("succeed");
