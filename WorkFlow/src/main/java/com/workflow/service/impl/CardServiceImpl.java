@@ -11,6 +11,7 @@ import com.workflow.repository.IColRepo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -49,5 +50,13 @@ public class CardServiceImpl {
         card.setDescription(card.getDescription());
         card.setCol(colRepo.findById(createCardReq.getColId()).orElse(null));
         cardRepo.save(card);
+    }
+    @Transactional
+    public void deleteCard(int cardId){
+        Card card = cardRepo.findById(cardId).orElse(null);
+        if (card != null){
+            card.getAccounts().clear();
+            cardRepo.delete(card);
+        }
     }
 }

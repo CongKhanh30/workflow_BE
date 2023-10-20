@@ -59,4 +59,13 @@ public class CardController {
         }
         return ResponseEntity.status(HttpStatus.GONE).body("Col not found");
     }
+    @DeleteMapping("/remove")
+    public ResponseEntity remove(int cardId){
+        Card card = cardService.getById(cardId);
+        if (card == null) return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("No card found");
+        if (!permissionBoardService.isMember(accountService.getCurrentUsername(),card.getCol().getBoard().getId()))
+            return ResponseEntity.status(403).body("No permission");
+        cardService.deleteCard(cardId);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("succeed");
+    }
 }
