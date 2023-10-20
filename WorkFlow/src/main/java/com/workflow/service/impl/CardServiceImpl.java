@@ -4,6 +4,7 @@ import com.workflow.dto.CardDetailResponse;
 import com.workflow.dto.CreateCardReq;
 import com.workflow.dto.MiniAccount;
 import com.workflow.dto.MiniCardResponse;
+import com.workflow.model.Account;
 import com.workflow.model.Card;
 import com.workflow.model.Col;
 import com.workflow.repository.ICardRepo;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 public class CardServiceImpl {
     private final ICardRepo cardRepo;
     private final IColRepo colRepo;
+    private final AccountServiceImpl accountService;
 
     public List<Card> getByCol(Col col) {
         return cardRepo.findAllByCol(col);
@@ -57,6 +59,15 @@ public class CardServiceImpl {
         if (card != null){
             card.getAccounts().clear();
             cardRepo.delete(card);
+        }
+    }
+    public void addAccount(int cardId, String username){
+        Optional<Card> cardOtp = cardRepo.findById(cardId);
+        if (cardOtp.isPresent()){
+            List<Account> accounts = cardOtp.get().getAccounts();
+            accounts.add(accountService.findByUsername(username));
+            cardOtp.get().setAccounts(accounts);
+            cardRepo.save(cardOtp.get());
         }
     }
 }

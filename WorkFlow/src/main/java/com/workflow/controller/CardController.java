@@ -42,8 +42,7 @@ public class CardController {
         if (card == null) return  ResponseEntity.status(HttpStatus.ACCEPTED).body("No card found");
         if (!permissionBoardService.isMember(accountService.getCurrentUsername(),card.getCol().getBoard().getId()))
             return ResponseEntity.status(403).body("You're not in this board");
-        List<Account> accounts = card.getAccounts();
-        accounts.add(accountService.findByUsername(username));
+        cardService.addAccount(cardId,username);
         return ResponseEntity.status(200).body("Succeed");
     }
 
@@ -59,8 +58,8 @@ public class CardController {
         }
         return ResponseEntity.status(HttpStatus.GONE).body("Col not found");
     }
-    @DeleteMapping("/remove")
-    public ResponseEntity remove(int cardId){
+    @DeleteMapping("/remove/{cardId}")
+    public ResponseEntity remove(@PathVariable int cardId){
         Card card = cardService.getById(cardId);
         if (card == null) return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("No card found");
         if (!permissionBoardService.isMember(accountService.getCurrentUsername(),card.getCol().getBoard().getId()))
