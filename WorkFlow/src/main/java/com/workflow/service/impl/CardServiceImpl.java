@@ -1,9 +1,6 @@
 package com.workflow.service.impl;
 
-import com.workflow.dto.CardDetailResponse;
-import com.workflow.dto.CreateCardReq;
-import com.workflow.dto.MiniAccount;
-import com.workflow.dto.MiniCardResponse;
+import com.workflow.dto.*;
 import com.workflow.model.Account;
 import com.workflow.model.Card;
 import com.workflow.model.Col;
@@ -68,6 +65,19 @@ public class CardServiceImpl {
             accounts.add(accountService.findByUsername(username));
             cardOtp.get().setAccounts(accounts);
             cardRepo.save(cardOtp.get());
+        }
+    }
+
+    public void editCard(EditCardReq editCardReq) {
+        Optional<Card> cardOtp = cardRepo.findById(editCardReq.getCardId());
+        Optional<Col> colOtp = colRepo.findById(editCardReq.getColId());
+        if (cardOtp.isPresent() && colOtp.isPresent()){
+            Card card = cardOtp.get();
+            card.setTitle(editCardReq.getTitle());
+            card.setDescription(editCardReq.getDescription());
+            card.setDueDate(editCardReq.getDueDate());
+            card.setCol(colOtp.get());
+            cardRepo.save(card);
         }
     }
 }

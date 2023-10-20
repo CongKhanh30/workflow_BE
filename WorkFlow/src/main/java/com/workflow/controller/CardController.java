@@ -2,6 +2,7 @@ package com.workflow.controller;
 
 import com.workflow.dto.CardDetailResponse;
 import com.workflow.dto.CreateCardReq;
+import com.workflow.dto.EditCardReq;
 import com.workflow.model.Account;
 import com.workflow.model.Card;
 import com.workflow.model.Col;
@@ -67,4 +68,14 @@ public class CardController {
         cardService.deleteCard(cardId);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("succeed");
     }
+    @PutMapping("/edit")
+    public ResponseEntity editCard(@RequestBody EditCardReq editCardReq){
+        if(!permissionBoardService.isMember(
+                accountService.getCurrentUsername(),
+                cardService.getById(editCardReq.getCardId()).getCol().getBoard().getId()))
+            return ResponseEntity.status(403).body("No permission");
+        cardService.editCard(editCardReq);
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("succeed");
+    }
+
 }
