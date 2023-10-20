@@ -37,6 +37,5 @@ public class CardServiceImpl {
         cardDetailResponse.setDueDate(card.getDueDate());
         cardDetailResponse.setCol(card.getCol());
         return cardDetailResponse;
-
     }
 }
