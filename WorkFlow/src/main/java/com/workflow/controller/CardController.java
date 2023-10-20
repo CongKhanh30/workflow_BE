@@ -6,6 +6,7 @@ import com.workflow.dto.EditCardReq;
 import com.workflow.model.Account;
 import com.workflow.model.Card;
 import com.workflow.model.Col;
+import com.workflow.repository.ICardRepo;
 import com.workflow.repository.IColRepo;
 import com.workflow.service.impl.AccountServiceImpl;
 import com.workflow.service.impl.CardServiceImpl;
@@ -27,6 +28,7 @@ public class CardController {
     private final PermissionBoardServiceImpl permissionBoardService;
     private final AccountServiceImpl accountService;
     private final IColRepo colRepo;
+    private final ICardRepo cardRepo;
     @GetMapping("/{id}")
     public ResponseEntity findById(@PathVariable int id){
         CardDetailResponse cardDetailResponse =cardService.findById(id);
@@ -70,6 +72,10 @@ public class CardController {
     }
     @PutMapping("/edit")
     public ResponseEntity editCard(@RequestBody EditCardReq editCardReq){
+        if(!colRepo.existsById(editCardReq.getColId()))
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Col not found");
+        if(!cardRepo.existsById(editCardReq.getCardId()))
+            return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Card not found");
         if(!permissionBoardService.isMember(
                 accountService.getCurrentUsername(),
                 cardService.getById(editCardReq.getCardId()).getCol().getBoard().getId()))
