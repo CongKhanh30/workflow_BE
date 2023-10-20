@@ -53,3 +53,15 @@ b
 2WorkFlow/src/main/java/com/workflow/model/Col.java,b\8\b89a19e965390b2b483b78f98a3d9ac7d11f3488
 p
 @WorkFlow/src/main/java/com/workflow/repository/IAccountRepo.java,4\8\4821051b6f1ea5b1b1ac78fc5c6acbd0d36ea166
+n
+>WorkFlow/src/main/java/com/workflow/dto/KickTeamMemberReq.java,1\2\12d0561a0296073b5289fbcde08381c81cc5386b
+s
+CWorkFlow/src/main/java/com/workflow/repository/IPermissionRepo.java,3\4\3473ae18537410714c3aca582858f8d3097bd55b
+x
+HWorkFlow/src/main/java/com/workflow/controller/PermissionController.java,4\d\4df1a30eea2e06e168d04c49bd90d45c74a7aab3
+u
+EWorkFlow/src/main/java/com/workflow/service/impl/CardServiceImpl.java,6\d\6d3f836723f2971a9cf37767b7291a234f55411b
+{
+KWorkFlow/src/main/java/com/workflow/service/impl/PermissionServiceImpl.java,2\a\2a3558c43ed281b5778f158c3f91af033dfcfc8b
+v
+FWorkFlow/src/main/java/com/workflow/service/impl/BoardServiceImpl.java,1\2\12347a9871a41b4460da76b6b1a45a2a21a9eb52

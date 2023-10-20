@@ -57,6 +57,8 @@ public class BoardController {
         if (boardRemove == null) {
             return new ResponseEntity<>("Board not found", HttpStatus.NOT_FOUND);
         }
+        if (!permissionBoardService.adminCheck(accountService.getCurrentUsername(), id))
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
         boardService.delete(id);
         return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
 

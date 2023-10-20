@@ -1,13 +1,5 @@
 
-z
-java:S1488U"]Immediately return this expression instead of assigning it to the temporary variable "teams".(Κδ8εΉ³1
 T
-java:S3655U"7Call "Optional#isPresent()" before accessing the value.(Κδ8ΈεΉ³1
-T
-java:S3655h"7Call "Optional#isPresent()" before accessing the value.(Κδ8ΈεΉ³1
-S
-java:S3655["7Call "Optional#isPresent()" before accessing the value.(ρο¤8ΈεΉ³1
-T
-java:S3655L"7Call "Optional#isPresent()" before accessing the value.(Κδ8ΈεΉ³1
+java:S3655F"7Call "Optional#isPresent()" before accessing the value.(Κδ8ΈεΉ³1
 
-java:S1186F"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(έεÒΰ8ΊεΉ³1
+java:S1186@"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(έεÒΰ8ΊεΉ³1
