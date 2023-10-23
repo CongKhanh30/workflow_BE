@@ -30,7 +30,6 @@ public class Card {
     @JoinColumn(name = "col_id")
     private Col col;
 
-
     @JoinTable(
             name = "card_account",
             joinColumns = @JoinColumn(name = "card_id"),

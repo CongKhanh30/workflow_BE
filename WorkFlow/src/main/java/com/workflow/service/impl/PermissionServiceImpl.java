@@ -3,31 +3,27 @@ package com.workflow.service.impl;
 import com.workflow.model.Permission;
 import com.workflow.repository.IPermissionRepo;
 import com.workflow.service.IPermissionService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class PermissionServiceImpl implements IPermissionService {
-
-    @Autowired
-    IPermissionRepo permissionRepo;
+    private final IPermissionRepo permissionRepo;
 
     @Override
     public List<Permission> findAll() {
-       List<Permission> permissionList = (List<Permission>) permissionRepo.findAll();
-        return permissionList;
+        return permissionRepo.findAll();
     }
 
     @Override
     public void save(Permission permission) {
-
     }
 
     @Override
     public void edit(Permission permission) {
-
     }
 
     @Override
