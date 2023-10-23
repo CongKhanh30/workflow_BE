@@ -68,7 +68,6 @@ public class BoardController {
         }
         boardService.delete(id);
         return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
-
     }
 
     @PostMapping("/editNameBoard/{id}")
