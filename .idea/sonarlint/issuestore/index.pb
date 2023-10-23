@@ -65,3 +65,11 @@ EWorkFlow/src/main/java/com/workflow/service/impl/CardServiceImpl.java,6\d\6d3f
 KWorkFlow/src/main/java/com/workflow/service/impl/PermissionServiceImpl.java,2\a\2a3558c43ed281b5778f158c3f91af033dfcfc8b
 v
 FWorkFlow/src/main/java/com/workflow/service/impl/BoardServiceImpl.java,1\2\12347a9871a41b4460da76b6b1a45a2a21a9eb52
+r
+BWorkFlow/src/main/java/com/workflow/controller/CardController.java,f\8\f883fbeaa5088bc2a87457ec04eb7834922557a2
+h
+8WorkFlow/src/main/java/com/workflow/dto/EditCardReq.java,0\e\0ec9a710b2f6ae3bc700240aed0b34b7708332cf
+o
+?WorkFlow/src/main/java/com/workflow/dto/CardDetailResponse.java,2\1\21d396cbfa67844e3eb635bfb928453c36e004af
+h
+8WorkFlow/src/main/java/com/workflow/dto/MiniAccount.java,b\e\be9bb508f1df33168b194fca85b1fc5d2ced55f9

@@ -3,7 +3,6 @@ package com.workflow.controller;
 import com.workflow.dto.CardDetailResponse;
 import com.workflow.dto.CreateCardReq;
 import com.workflow.dto.EditCardReq;
-import com.workflow.model.Account;
 import com.workflow.model.Card;
 import com.workflow.model.Col;
 import com.workflow.repository.ICardRepo;
@@ -16,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
