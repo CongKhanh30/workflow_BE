@@ -19,8 +19,13 @@ public class CardServiceImpl {
     private final ICardRepo cardRepo;
 
     public List<Card> getByCol(Col col) {
+
         return cardRepo.findAllByCol(col);
     }
+    public List<MiniCardResponse> getByCol(int colId){
+        return cardRepo.findAllByColId(colId).stream().map(this::buildMiniCard).collect(Collectors.toList());
+    }
+
     public MiniCardResponse buildMiniCard(Card card){
         return new MiniCardResponse(card.getId(),card.getTitle(),card.getDueDate());
     }
