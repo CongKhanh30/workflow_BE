@@ -26,21 +26,21 @@ public class ColController {
     private final AccountServiceImpl accountService;
 
     @GetMapping("/{boardId}")
-    public ResponseEntity getByBoard(@PathVariable int boardId){
+    public ResponseEntity<?> getByBoard(@PathVariable int boardId){
         List<ColResponse> cols = colService.getCol(boardId);
         if (cols != null) return ResponseEntity.ok(cols);
-        return new  ResponseEntity(HttpStatus.NO_CONTENT);
+        return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/rn")
-    public ResponseEntity rename(@RequestBody RenameColRequest renameColRequest){
+    public ResponseEntity<?> rename(@RequestBody RenameColRequest renameColRequest){
         if(colService.rename(renameColRequest.getNewName(), renameColRequest.getColId()))
             return ResponseEntity.ok("succeed");
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Col not found");
     }
 
     @PostMapping("/create")
-    public ResponseEntity createCol(String name, int boardId){
+    public ResponseEntity<?> createCol(String name, int boardId){
         Optional<Board> boardOtp = boardRepo.findById(boardId);
         if (!permissionBoardService.isMember(accountService.getCurrentUsername(), boardId))
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Don't have permission");
