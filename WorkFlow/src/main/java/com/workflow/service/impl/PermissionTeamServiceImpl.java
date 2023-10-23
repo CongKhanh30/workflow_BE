@@ -30,21 +30,21 @@ public class PermissionTeamServiceImpl implements IPermissionTeamService {
     }
     private PermissionTeam builderAdd(AddTeamMemberRequest addTeamMemberRequest){
         PermissionTeam permissionTeam = new PermissionTeam();
-        permissionTeam.setTeams(teamRepo.findById(addTeamMemberRequest.getTeamId()).get());
+        permissionTeam.setTeams(teamRepo.findById(addTeamMemberRequest.getTeamId()).orElse(null));
         permissionTeam.setAccount(accountRepo.findByUsername(addTeamMemberRequest.getUsername()));
-        permissionTeam.setPermission(permissionRepo.findById(addTeamMemberRequest.getPermissionId()).get());
+        permissionTeam.setPermission(permissionRepo.findById(addTeamMemberRequest.getPermissionId()).orElse(null));
         return permissionTeam;
     }
     public boolean adminCheck(String username, int teamId){
-        int ROLE_ADMIN_ID = 1;
+        int roleAdminId = 1;
         return (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId) != null
-                && (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId).getPermission().getId() == ROLE_ADMIN_ID));
+                && (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username,teamId).getPermission().getId() == roleAdminId));
 
     }
     public boolean memberCheck(String username, int teamId){
-        int ROLE_MEMBER_ID = 2;
+        int roleMemberId = 2;
         return permissionTeamRepo.findByAccount_UsernameAndTeamsId(username, teamId) != null
-                && (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username, teamId).getPermission().getId() == ROLE_MEMBER_ID);
+                && (permissionTeamRepo.findByAccount_UsernameAndTeamsId(username, teamId).getPermission().getId() == roleMemberId);
     }
     public boolean isMember(String username,int teamId){
         return (adminCheck(username, teamId)

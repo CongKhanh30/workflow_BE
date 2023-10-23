@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +23,7 @@ public class AccountServiceImpl implements IAccountService {
     private final IAccountRepo iAccountRepo;
     private final IAccountRoleRepo accountRoleRepo;
 
-    private final List<Role> getRoles(Account account){
+    private List<Role> getRoles(Account account){
         List<Role> roles = new ArrayList<>();
         List<AccountRole> accountRoles = accountRoleRepo.findAllByAccount(account);
         for (AccountRole ar : accountRoles) {
@@ -49,7 +48,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public List<Account> findAll() {
-        return (List<Account>) iAccountRepo.findAll();
+        return iAccountRepo.findAll();
     }
 
     @Override
@@ -69,8 +68,7 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Account findByTeamId(int id) {
-
-        return iAccountRepo.findById(id).get();
+        return iAccountRepo.findById(id).orElse(null);
     }
 
     public String getCurrentUsername (){
