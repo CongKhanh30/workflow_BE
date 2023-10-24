@@ -74,7 +74,7 @@ public class CardServiceImpl {
     }
 
     public void editCard(EditCardReq editCardReq) {
-        Optional<Card> cardOtp = cardRepo.findById(editCardReq.getCardId());
+        Optional<Card> cardOtp = cardRepo.findById(editCardReq.getId());
         Optional<Col> colOtp = colRepo.findById(editCardReq.getColId());
         if (cardOtp.isPresent() && colOtp.isPresent()){
             Card card = cardOtp.get();

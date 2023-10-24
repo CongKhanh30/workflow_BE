@@ -74,11 +74,11 @@ public class CardController {
     public ResponseEntity editCard(@RequestBody EditCardReq editCardReq){
         if(!colRepo.existsById(editCardReq.getColId()))
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Col not found");
-        if(!cardRepo.existsById(editCardReq.getCardId()))
+        if(!cardRepo.existsById(editCardReq.getId()))
             return ResponseEntity.status(HttpStatus.ALREADY_REPORTED).body("Card not found");
         if(!permissionBoardService.isMember(
                 accountService.getCurrentUsername(),
-                cardService.getById(editCardReq.getCardId()).getCol().getBoard().getId()))
+                cardService.getById(editCardReq.getId()).getCol().getBoard().getId()))
             return ResponseEntity.status(403).body("No permission");
         cardService.editCard(editCardReq);
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("succeed");

@@ -24,6 +24,7 @@ public class TeamController {
 
     @GetMapping
     public List<TeamResponse> getAllTeam() {
+
         return teamService.getAll();
     }
 
@@ -87,4 +88,5 @@ public class TeamController {
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("You don't have permission");
     }
+
 }
