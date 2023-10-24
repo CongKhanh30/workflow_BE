@@ -95,6 +95,7 @@ public class TeamServiceImpl implements ITeamService {
             Teams teams = teamsOtp.get();
             TeamDetailResponse teamDetailResponse = new TeamDetailResponse();
             teamDetailResponse.setName(teams.getName());
+            teamDetailResponse.setId(id);
             List<PermissionTeam> permissionTeamList = permissionTeamRepo.findAllByTeams(teams);
             teamDetailResponse.setMembers(permissionTeamList.stream().map(this::buildMember).collect(Collectors.toSet()));
             return teamDetailResponse;
@@ -106,6 +107,7 @@ public class TeamServiceImpl implements ITeamService {
         teamMemberResponse.setId(pt.getAccount().getId());
         teamMemberResponse.setName(pt.getAccount().getName());
         teamMemberResponse.setPermission(pt.getPermission().getName());
+        teamMemberResponse.setUsername(pt.getAccount().getUsername());
         return teamMemberResponse;
     }
 }
