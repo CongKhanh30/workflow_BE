@@ -29,7 +29,7 @@ public class TeamController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity teamDetails(@PathVariable int id) {
+    public ResponseEntity<?> teamDetails(@PathVariable int id) {
         TeamDetailResponse teamDetailResponse = teamService.findById(id);
         if (teamDetailResponse != null) {
             return ResponseEntity.ok(teamDetailResponse);
@@ -78,7 +78,7 @@ public class TeamController {
     }
 
     @DeleteMapping("/kick")
-    public ResponseEntity kickMember(@RequestBody KickTeamMemberReq kickTeamMemberReq){
+    public ResponseEntity<?> kickMember(@RequestBody KickTeamMemberReq kickTeamMemberReq){
         if(permissionTeamService.adminCheck(accountService.getCurrentUsername(), kickTeamMemberReq.getTeamId())){
             if (permissionTeamService.isMember(kickTeamMemberReq.getUsername(), kickTeamMemberReq.getTeamId())){
                 permissionTeamService.kickMember(kickTeamMemberReq);

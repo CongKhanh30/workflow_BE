@@ -62,7 +62,6 @@ public class BoardController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(noPermission);
         boardService.delete(id);
         return new ResponseEntity<>("Delete Board Success", HttpStatus.OK);
-
     }
 
     @PostMapping("/editNameBoard/{id}")
