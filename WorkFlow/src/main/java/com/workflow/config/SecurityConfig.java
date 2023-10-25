@@ -70,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         // cau hinh cors de cho phep tat ca cac domain khac truy cap
         // domain la dia chi cua server
-        http.cors(); //
+        http.cors();
 
     }
 }

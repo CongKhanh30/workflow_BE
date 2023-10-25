@@ -51,7 +51,8 @@ public class CardServiceImpl {
     public void createCard(CreateCardReq createCardReq) {
         Card card = new Card();
         card.setTitle(createCardReq.getTitle());
-        card.setDescription(card.getDescription());
+        card.setDescription(createCardReq.getDescription());
+        card.setDueDate(createCardReq.getDueDate());
         card.setCol(colRepo.findById(createCardReq.getColId()).orElse(null));
         cardRepo.save(card);
     }

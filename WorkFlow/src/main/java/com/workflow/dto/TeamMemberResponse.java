@@ -8,5 +8,6 @@ import lombok.Setter;
 public class TeamMemberResponse {
     private int id;
     private String name;
+    private String username;
     private String permission;
 }
