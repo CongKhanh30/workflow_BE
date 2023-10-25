@@ -51,6 +51,11 @@ public class PermissionTeamServiceImpl implements IPermissionTeamService {
                 ||memberCheck(username, teamId));
     }
 
+//    public void kickMember(KickTeamMemberReq kickTeamMemberReq) {
+//        permissionTeamRepo.delete(permissionTeamRepo.findByAccount_UsernameAndTeamsId(
+//                kickTeamMemberReq.getUsername(), kickTeamMemberReq.getTeamId()));
+//    }
+
     public void kickMember(KickTeamMemberReq kickTeamMemberReq) {
         permissionTeamRepo.delete(permissionTeamRepo.findByAccount_UsernameAndTeamsId(
                 kickTeamMemberReq.getUsername(), kickTeamMemberReq.getTeamId()));

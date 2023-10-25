@@ -22,8 +22,13 @@ public class CardServiceImpl {
     private final AccountServiceImpl accountService;
 
     public List<Card> getByCol(Col col) {
+
         return cardRepo.findAllByCol(col);
     }
+    public List<MiniCardResponse> getByCol(int colId){
+        return cardRepo.findAllByColId(colId).stream().map(this::buildMiniCard).collect(Collectors.toList());
+    }
+
     public MiniCardResponse buildMiniCard(Card card){
         return new MiniCardResponse(card.getId(),card.getTitle(),card.getDueDate());
     }
@@ -70,7 +75,7 @@ public class CardServiceImpl {
     }
 
     public void editCard(EditCardReq editCardReq) {
-        Optional<Card> cardOtp = cardRepo.findById(editCardReq.getCardId());
+        Optional<Card> cardOtp = cardRepo.findById(editCardReq.getId());
         Optional<Col> colOtp = colRepo.findById(editCardReq.getColId());
         if (cardOtp.isPresent() && colOtp.isPresent()){
             Card card = cardOtp.get();

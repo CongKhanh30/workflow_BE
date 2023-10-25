@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface ICardRepo extends JpaRepository<Card,Integer> {
     List<Card> findAllByCol(Col col);
+
+    List<Card> findAllByColId(int colId);
 }
