@@ -60,4 +60,14 @@ public class ColServiceImpl {
             colRepo.save(col);
         }
     }
+
+    public boolean delete(int colId){
+        Optional<Col> colOtp = colRepo.findById(colId);
+        if (colOtp.isPresent()
+                && permissionTeamService.isMember(accountService.getCurrentUsername(), colOtp.get().getBoard().getTeam().getId())){
+            colRepo.deleteById(colId);
+            return true;
+        }
+        return false;
+    }
 }

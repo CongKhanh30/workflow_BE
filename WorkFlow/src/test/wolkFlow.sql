@@ -46,14 +46,11 @@ values (1, 'Manager'),
 
 insert into permission_board(id, account_id, board_id, permission_id)
 values (1, 1, 1, 1),
-       (2, 1, 1, 2),
-       (3, 1, 2, 2),
-       (4, 2, 2, 1),
-       (5, 3, 2, 2),
-       (6, 4, 2, 2),
-       (7, 1, 3, 1),
-       (8, 5, 3, 2),
-       (9, 6, 3, 2);
+       (2, 2, 1, 2),
+       (3, 3, 2, 2),
+       (4, 4, 2, 2),
+       (5, 5, 2, 2),
+       (6, 6, 2, 2);
 
 
 insert into permission_team(id, account_id, permission_id, teams_id)

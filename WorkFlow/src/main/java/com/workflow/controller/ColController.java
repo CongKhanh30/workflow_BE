@@ -50,4 +50,12 @@ public class ColController {
         }
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("fail");
     }
+
+    @DeleteMapping("/delete/{colId}")
+    public ResponseEntity<String> deleteCol(@PathVariable int colId){
+        if (colService.delete(colId))
+            return ResponseEntity.ok("succeed");
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body("Col not found");
+    }
+
 }
